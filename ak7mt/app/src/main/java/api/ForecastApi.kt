@@ -3,7 +3,7 @@ package api
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
-import tools.Constans
+import tools.Constants
 
 class ForecastApi(private val client: HttpClient) {
 
@@ -22,7 +22,7 @@ class ForecastApi(private val client: HttpClient) {
         lng: Double,
         onFinish: (resp: String) -> Unit
     ) {
-        val response = client.get<String>("${Constans.API_URL}${Constans.API_KEY}/$lat,$lng")
+        val response = client.get<String>("${Constants.WEATHER_URL}${Constants.WEATHER_API_KEY}/$lat,$lng")
         onFinish(response)
     }
 }
