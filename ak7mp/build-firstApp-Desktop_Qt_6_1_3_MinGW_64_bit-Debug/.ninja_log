@@ -1,0 +1,8 @@
+# ninja log v5
+3	259	6542805554729311	CMakeFiles/firstApp.dir/main.cpp.obj	f2bed9c3add1709f
+5	261	6542805554729311	myLib/CMakeFiles/myLib.dir/myLib.cpp.obj	6bd00eea8ca292bc
+261	352	6542805555636679	myLib/libmyLib.dll	1e4f865ad32b3952
+261	352	6542805555636679	myLib/libmyLib.dll.a	1e4f865ad32b3952
+3	95	6542811775229288	firstApp.exe	96a6abc5cef0ab52
+3	244	6542816920421445	CMakeFiles/firstApp.dir/main.cpp.obj	7910334d0800d1b9
+245	334	6542816921283650	firstApp.exe	96a6abc5cef0ab52
