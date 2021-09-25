@@ -1,6 +1,0 @@
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/firstApp.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/myLib/CMakeFiles/myLib.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/myLib/CMakeFiles/edit_cache.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/build-firstApp-Desktop_Qt_6_1_3_MinGW_64_bit-Debug/myLib/CMakeFiles/rebuild_cache.dir
