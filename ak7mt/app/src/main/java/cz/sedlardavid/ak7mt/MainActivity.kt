@@ -1,12 +1,9 @@
 package cz.sedlardavid.ak7mt
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import api.Api
 import repository.LocationRepository
 import java.util.*
 import kotlin.concurrent.schedule
@@ -18,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         //TODO handle init app state reroute to dashboard
         // Get location permission
         //  - Load city from storage ?? continue to app
-        Api()
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -40,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         Timer().schedule(3000) {
             rerouteToDashboard()
         }
-
 
 
     }

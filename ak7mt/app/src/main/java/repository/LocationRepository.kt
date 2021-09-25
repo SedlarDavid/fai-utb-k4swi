@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 
 class LocationRepository(private val activityContext: Activity) {
 
-    private val api: LocationApi = Api().location
+    private val api: LocationApi = Api.location
 
     private var fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(activityContext)
