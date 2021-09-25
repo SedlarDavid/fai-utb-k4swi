@@ -11,18 +11,6 @@ import repository.LocationRepository
 import java.util.*
 import kotlin.concurrent.schedule
 
-
-object SystemService {
-
-
-    val allowedLocation: Boolean = false
-
-
-    fun initLocation() {}
-
-
-}
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
