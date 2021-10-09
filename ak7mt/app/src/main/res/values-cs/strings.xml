@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Weatheroo</string>
+    <string name="btnForecast">Předpověď</string>
+    <string name="btnHistory">Historie</string>
+    <string name="btnSettings">Nastavení</string>
+    <string name="titleDashboard">Dashboard</string>
+</resources>

@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">ak7mt</string>
+    <string name="app_name">Weatheroo</string>
+    <string name="btnForecast">Forecast</string>
+    <string name="btnHistory">History</string>
+    <string name="btnSettings">Settings</string>
+    <string name="titleDashboard">Settings</string>
 </resources>
