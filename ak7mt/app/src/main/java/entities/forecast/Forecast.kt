@@ -1,6 +1,8 @@
-package entities
+package entities.forecast
 
 import com.google.gson.annotations.SerializedName
+import serializers.entities.forecast.ForecastData
+import serializers.entities.forecast.HourlyForecast
 
 data class Forecast(
     val latitude: Double,
@@ -9,13 +11,5 @@ data class Forecast(
     val hourly: HourlyForecast
 )
 
-data class HourlyForecast(
-    val data: List<ForecastData>,
-)
 
-data class ForecastData(
-    val time: Int,
-    val summary: String,
-    val icon: String,
-    val temperature: Double
-)
+

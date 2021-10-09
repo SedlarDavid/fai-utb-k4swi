@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "cz.sedlardavid.ak7mt";
+option java_multiple_files = true;
+
+message Settings {
+  string primaryCity = 1;
+
+  enum Units {
+    METRIC = 0;
+    IMPERIAL = 1;
+  }
+
+  Units units = 2;
+}

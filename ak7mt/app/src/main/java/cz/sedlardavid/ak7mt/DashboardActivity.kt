@@ -2,31 +2,34 @@ package cz.sedlardavid.ak7mt
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import cz.sedlardavid.ak7mt.databinding.ActivityDashboardBinding
 
 class DashboardActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
-        val btnForecast = findViewById<Button>(R.id.btnForecast);
-        val btnHistory = findViewById<Button>(R.id.btnHistory);
-        val btnSettings = findViewById<Button>(R.id.btnSettings);
+        val btnForecast = binding.btnForecast
+        val btnHistory = binding.btnHistory
+        val btnSettings = binding.btnSettings
 
         btnForecast.setOnClickListener {
-            toForecast();
-        };
+            toForecast()
+        }
         btnHistory.setOnClickListener {
-            toHistory();
-        };
+            toHistory()
+        }
         btnSettings.setOnClickListener {
-            toSettings();
-        };
+            toSettings()
+        }
     }
 
     private fun toForecast() {
