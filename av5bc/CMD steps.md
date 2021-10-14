@@ -37,8 +37,28 @@
     'instance.getMyName()'
     'instance.changeMyName("Dejw")'
 
+#3
+ - truffle init
+ ... vytvareni solidity souboru ... 
+ Prepsat correct verzi v compilers
+ Prepsat migraci na contract ktery chceme deployovat
+ - truffle compile
+ Start Ganache
+ Link projects with Ganache
+ - truffle deploy
+ - truffle console
+ - coin = await Coin.deployed()
+ - coin.mint("0x16387c825f82B90B4128465Ca4dd485b58594b20",10)  
+ - coin.send("0x12fBf72B9F68FFec7bec617cFca079b5216895fE",5,{from:"0x16387c825f82B90B4128465Ca4dd485b58594b20"})       
 
-
+Tomáš Janča 
+    - Zlínský kraj, digitalizace
+    - StarGlass
+    - Rockaway blockchain fondD
+    - předmět - Forbes, Rockaway, Datum (Brno) startup, Akee blockchain
+    - Akee udělá zadání, bude vyhodnocovat  100k, 75k, 50k, individuální
+    - BC dev 200-250k, Akee 700k/m ???
+    - Solana !, Rust lang
 
 
 
