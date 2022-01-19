@@ -1,8 +1,8 @@
 package serializers.mocks
 
 import entities.forecast.Forecast
-import entities.ForecastData
-import entities.HourlyForecast
+import serializers.entities.forecast.ForecastData
+import serializers.entities.forecast.HourlyForecast
 
 class ForecastMock {
     companion object {

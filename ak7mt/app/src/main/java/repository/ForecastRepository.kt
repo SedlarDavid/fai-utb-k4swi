@@ -5,8 +5,9 @@ import api.ForecastApi
 import com.google.gson.Gson
 import entities.forecast.Forecast
 import serializers.mocks.ForecastMock
+import javax.inject.Inject
 
-class ForecastRepository {
+class ForecastRepository @Inject constructor() {
     private val api: ForecastApi = Api.forecast
     private val gson = Gson()
 
