@@ -9,4 +9,14 @@ object SystemService {
     fun initLocation() {}
 
 
+    private  val units :String = "something"
+
+    fun getUnits(): String {
+        if(units.equals("si")){
+            return  "°C"
+        }
+        else{
+            return "F"
+        }
+    }
 }

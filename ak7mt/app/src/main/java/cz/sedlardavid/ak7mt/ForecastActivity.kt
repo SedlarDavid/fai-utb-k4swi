@@ -7,9 +7,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cz.sedlardavid.ak7mt.databinding.ActivityForecastBinding
+import dagger.hilt.android.AndroidEntryPoint
+import serializers.entities.forecast.ForecastData
 import viewmodels.ForecastViewModel
 
-
+@AndroidEntryPoint
 class ForecastActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForecastBinding
@@ -26,9 +28,9 @@ class ForecastActivity : AppCompatActivity() {
         llm.orientation = LinearLayoutManager.VERTICAL
         val recyclerView = binding.hourlyForecastList
         val dataList = model.forecast.value?.hourly?.data?.map {
-            it.summary
+            it
         }?.toTypedArray()
-        val adapterList = dataList ?: Array<String>(0) { "" }
+        val adapterList = dataList ?: Array<ForecastData>(0) { ForecastData(0,"","",0.0) }
         val adapter = ForecastAdapter(adapterList)
         recyclerView.layoutManager = llm
         recyclerView.adapter = adapter

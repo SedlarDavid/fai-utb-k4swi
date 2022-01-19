@@ -4,4 +4,7 @@
     <string name="btnHistory">Historie</string>
     <string name="btnSettings">Nastavení</string>
     <string name="titleDashboard">Dashboard</string>
+    <string name="forecast">Forecast</string>
+    <string name="history">Historie</string>
+    <string name="settingsTitle">Nastavení</string>
 </resources>
