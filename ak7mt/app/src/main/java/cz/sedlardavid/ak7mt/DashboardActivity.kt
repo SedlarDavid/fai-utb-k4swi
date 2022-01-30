@@ -18,15 +18,12 @@ class DashboardActivity : AppCompatActivity() {
 
 
         val btnForecast = binding.btnForecast
-        val btnHistory = binding.btnHistory
         val btnSettings = binding.btnSettings
 
         btnForecast.setOnClickListener {
             toForecast()
         }
-        btnHistory.setOnClickListener {
-            toHistory()
-        }
+
         btnSettings.setOnClickListener {
             toSettings()
         }
@@ -37,10 +34,7 @@ class DashboardActivity : AppCompatActivity() {
         startActivity(Intent(this, ForecastActivity::class.java))
     }
 
-    private fun toHistory() {
 
-        startActivity(Intent(this, HistoryActivity::class.java))
-    }
 
     private fun toSettings() {
 

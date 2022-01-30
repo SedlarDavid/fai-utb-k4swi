@@ -18,14 +18,14 @@ import serializers.SettingsSerializer
 import java.util.concurrent.Flow
 import kotlin.coroutines.CoroutineContext
 
-
 private const val SETTINGS_FILE_NAME = "settings.pb";
 private val Context.settingsStore: DataStore<Settings> by dataStore(
     fileName = SETTINGS_FILE_NAME,
     serializer = SettingsSerializer
 )
 
-class SettingsActivity : AppCompatActivity() ,CoroutineScope{
+
+class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
     private var job: Job = Job()
 
@@ -49,25 +49,21 @@ class SettingsActivity : AppCompatActivity() ,CoroutineScope{
 
         val btnSave = binding.btnSaveSettings
         val loader = binding.loaSetting
+        val city = binding.texEditText
 
-        loader.visibility = View.VISIBLE
-
-        val dataFlow = settingsStore.data.map {
-            settings -> println(
-            "SETTING" + settings.primaryCity
-            )
+        settingsStore.data.map { settings ->
+            city.setText(settings.primaryCity)
         }
 
-        loader.visibility = View.GONE
-        btnSave.setOnClickListener{
-            launch{ saveSettings(loader) }
+        btnSave.setOnClickListener {
+            launch { saveSettings(loader) }
         }
 
-        print(dataFlow.toString())
     }
 
 
-    suspend fun saveSettings(loader:ProgressBar) {
+    suspend fun saveSettings(loader: ProgressBar) {
+
 
         loader.visibility = View.VISIBLE
         settingsStore.updateData { currentSettings ->

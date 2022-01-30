@@ -27,7 +27,6 @@
             android:theme="@style/Theme.Ak7mt.NoActionBar" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".ForecastActivity" />
-        <activity android:name=".HistoryActivity" />
         <activity android:name=".SettingsActivity" />
     </application>
 
