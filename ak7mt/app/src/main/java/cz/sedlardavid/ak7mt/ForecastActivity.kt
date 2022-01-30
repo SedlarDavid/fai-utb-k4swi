@@ -47,7 +47,7 @@ class ForecastActivity : AppCompatActivity() {
                 it
             }?.toTypedArray()
             val adapterList = dataList ?: Array<ForecastData>(0) { ForecastData(0, "", "", 0.0) }
-            val adapter = ForecastAdapter(adapterList)
+            val adapter = ForecastAdapter(adapterList, context = baseContext)
             recyclerView.layoutManager = llm
             recyclerView.adapter = adapter
 

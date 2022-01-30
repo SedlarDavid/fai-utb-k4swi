@@ -14,13 +14,14 @@
         <entry key="..\:/Users/Work/dev/utb/fai-utb-k4swi/ak7mt/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="..\:/Users/Work/dev/utb/fai-utb-k4swi/ak7mt/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/drawable/button.xml" value="0.36354166666666665" />
+        <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/drawable/empty_icon.xml" value="0.3776041666666667" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/drawable/gradient.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/activity_dashboard.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/activity_forecast.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/activity_history.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/activity_main.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/activity_settings.xml" value="0.25104166666666666" />
-        <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/row_forecast.xml" value="0.67" />
+        <entry key="..\:/Users/sedla/dev/utb/fai-utb-master_degree/ak7mt/app/src/main/res/layout/row_forecast.xml" value="0.5" />
       </map>
     </option>
   </component>
