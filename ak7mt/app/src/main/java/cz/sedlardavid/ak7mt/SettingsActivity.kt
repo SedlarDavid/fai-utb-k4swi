@@ -3,6 +3,7 @@ package cz.sedlardavid.ak7mt
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -50,25 +51,58 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         val btnSave = binding.btnSaveSettings
         val loader = binding.loaSetting
         val city = binding.texEditText
+        val units = binding.spiUnits
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.units,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            units.adapter = adapter
+        }
 
         settingsStore.data.map { settings ->
             city.setText(settings.primaryCity)
+            units.setSelection(dataToUnits(settings.units))
         }
 
         btnSave.setOnClickListener {
-            launch { saveSettings(loader) }
+            val cityData = city.text.toString()
+            val unitsData = spinnerDataToUnits(units.selectedItem)
+            launch { saveSettings(loader, cityData, unitsData) }
         }
 
     }
 
+    private fun dataToUnits(units: Settings.Units?): Int {
+        return when (units) {
+            Settings.Units.IMPERIAL -> 1
+            else -> 0
+        }
 
-    suspend fun saveSettings(loader: ProgressBar) {
+    }
+
+    private fun spinnerDataToUnits(selectedItem: Any?): Settings.Units {
+        val isImperial = R.array.units == selectedItem
+        val units: Settings.Units = if (isImperial) {
+            (Settings.Units.IMPERIAL)
+        } else {
+            Settings.Units.METRIC
+        }
+        return units
+    }
 
 
+    suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
+
+        println("CITY $city,UNITS $units")
         loader.visibility = View.VISIBLE
         settingsStore.updateData { currentSettings ->
-            currentSettings.toBuilder().setPrimaryCity("Olomouc").build()
-            currentSettings.toBuilder().setUnits(Settings.Units.METRIC).build()
+            currentSettings.toBuilder().setPrimaryCity(city).build()
+            currentSettings.toBuilder().setUnits(units).build()
         }
 
         loader.visibility = View.GONE
