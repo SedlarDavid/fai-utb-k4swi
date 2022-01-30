@@ -27,7 +27,7 @@ class ForecastAdapter(private val dataSet: Array<ForecastData>) :
 
         init {
             // Define click listener for the ViewHolder's View.
-            foreSummary = view.findViewById(R.id.foreSummary)
+            foreSummary = view.findViewById(R.id.settTitle)
             foreTime = view.findViewById(R.id.foreTime)
             foreIcon = view.findViewById(R.id.foreIcon)
             foreTemperature = view.findViewById(R.id.foreTemperature)

@@ -7,4 +7,7 @@
     <string name="forecast">Forecast</string>
     <string name="history">History</string>
     <string name="settingsTitle">Settings</string>
+    <string name="btnSaveSettings">Save settings</string>
+    <string name="cityHint" />
+    <string name="settCityDescription" />
 </resources>

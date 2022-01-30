@@ -8,12 +8,12 @@ import tools.Constants
 class ForecastApi(private val client: HttpClient) {
 
 
-    fun getForecast(lat: Double, lng: Double): String {
+    suspend fun getForecast(lat: Double, lng: Double): String {
         var response: String = ""
         println(response)
-        runBlocking {
-            getForecastAsync(lat, lng) { v -> response = v }
-        }
+
+        getForecastAsync(lat, lng) { v -> response = v }
+
         return response
     }
 
