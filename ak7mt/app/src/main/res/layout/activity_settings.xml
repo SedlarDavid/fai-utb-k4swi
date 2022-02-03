@@ -27,13 +27,12 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
 
-        android:layout_marginTop="116dp"
-        app:layout_constraintBottom_toTopOf="@+id/texEditText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settTitle"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96"
         android:visibility="gone"/>
 
     <Button
@@ -49,7 +48,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762" />
+        app:layout_constraintVertical_bias="0.96" />
+
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/texEditText"
@@ -60,6 +60,9 @@
         android:layout_marginRight="30dp"
         android:height="50dp"
         android:hint="@string/cityHint"
+        android:inputType="text"
+        android:maxLines="1"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,9 +74,9 @@
         android:layout_width="409dp"
         android:minHeight="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

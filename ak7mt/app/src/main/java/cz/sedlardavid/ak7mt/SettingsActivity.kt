@@ -95,7 +95,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
             city.clearFocus()
             val cityData = city.text.toString()
             val unitsData = spinnerDataToUnits(units.selectedItem)
-            launch { model.saveSettings(loader, cityData, unitsData) }
+            launch { model.saveSettings(loader,btnSave, cityData, unitsData) }
         }
 
     }

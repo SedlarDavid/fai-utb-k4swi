@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.datastore.core.DataStore
@@ -70,7 +71,7 @@ class SettingsViewModel @Inject constructor(
     }
 
 
-    suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
+    suspend fun saveSettings(loader: ProgressBar, button: Button, city: String, units: Settings.Units) {
         if (city.isEmpty()) {
             Toast.makeText(
                 context, context.getString(R.string.emptyCity),
@@ -79,6 +80,7 @@ class SettingsViewModel @Inject constructor(
             return
         }
 
+        button.visibility = View.GONE
         loader.visibility = View.VISIBLE
 
         val newLoca = locationRepository.getLocationByCity(city)
@@ -97,6 +99,7 @@ class SettingsViewModel @Inject constructor(
         updateSystemService(newSettings)
 
         loader.visibility = View.GONE
+        button.visibility = View.VISIBLE
 
         Toast.makeText(
             context, context.getString(R.string.saved),
