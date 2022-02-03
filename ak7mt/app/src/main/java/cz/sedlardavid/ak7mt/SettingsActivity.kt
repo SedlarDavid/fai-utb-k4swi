@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.google.android.material.internal.ContextUtils.getActivity
 import cz.sedlardavid.ak7mt.databinding.ActivitySettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,11 +22,15 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import serializers.SettingsSerializer
+import serializers.viewmodels.SettingsViewModel
 import serializers.viewmodels.settingsStore
+import viewmodels.ForecastViewModel
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
     private var job: Job = Job()
@@ -38,6 +44,8 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private lateinit var binding: ActivitySettingsBinding
+
+    private val model: SettingsViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +95,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
             city.clearFocus()
             val cityData = city.text.toString()
             val unitsData = spinnerDataToUnits(units.selectedItem)
-            launch { saveSettings(loader, cityData, unitsData) }
+            launch { model.saveSettings(loader, cityData, unitsData) }
         }
 
     }
@@ -100,7 +108,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     ) {
 
         settFlow.collect { sett ->
-            city.setText(sett.primaryCity)
+            city.setText(sett.city)
             units.setSelection(dataToUnits(sett.units))
 
             loader.visibility = View.GONE
@@ -128,25 +136,5 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     }
 
 
-    private suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
-        if (city.isEmpty()) {
-            Toast.makeText(
-                this, getString(R.string.emptyCity),
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
 
-        loader.visibility = View.VISIBLE
-        settingsStore.updateData { currentSettings ->
-            currentSettings.toBuilder().setPrimaryCity(city).setUnits(units).build()
-        }
-
-        loader.visibility = View.GONE
-
-        Toast.makeText(
-            this, getString(R.string.saved),
-            Toast.LENGTH_LONG
-        ).show()
-    }
 }

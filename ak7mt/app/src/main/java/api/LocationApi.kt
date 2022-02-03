@@ -1,39 +1,53 @@
 package api
 
+import com.google.gson.Gson
+import entities.forecast.Forecast
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
+import org.json.JSONObject
 import serializers.entities.Location
+import serializers.entities.location.LocationComponents
+import serializers.entities.location.LocationGeometry
 import tools.UrlBuilder
 
 class LocationApi(private val client: HttpClient) {
 
-
-    suspend fun getLocationByLatLng(lat: Double, lng: Double): String {
-        var response: String = ""
+    private val gson = Gson()
+    suspend fun getLocationByLatLng(lat: Double, lng: Double): Location {
+        var response = ""
         println(response)
 
         getLocationByLatLngAsync(lat, lng) { v -> response = v }
-
-        return response
+        val jObject = JSONObject(response)
+        val properResult = jObject.getJSONArray("results").get(0)
+        val newJsonString = properResult.toString()
+        val decoded = gson.fromJson(newJsonString, Location::class.java)
+        return decoded
     }
 
-    suspend fun getLocationByPlace(place: String): String {
-        var response: String = ""
+    suspend fun getLocationByPlace(place: String): Location {
+        var response = ""
         println(response)
 
         getLocationByPlaceAsync(place) { v -> response = v }
-
-        return response
+        val jObject = JSONObject(response)
+        val properResult = jObject.getJSONArray("results").get(0)
+        val newJsonString = properResult.toString()
+        val decoded = gson.fromJson(newJsonString, Location::class.java)
+        return decoded
     }
 
     suspend fun getDefaultLocation(): Location {
-        var response: String = ""
+        var response = ""
         println(response)
 
         getLocationByLatLngAsync(49.224438, 17.662764) { v -> response = v }
-
-        return Location(49.224438, 17.662764, "Zlín")
+        val jObject = JSONObject(response)
+        val properResult = jObject.getJSONArray("results").get(0)
+        val newJsonString = properResult.toString()
+        val decoded = gson.fromJson(newJsonString, Location::class.java)
+        return decoded
     }
 
     private suspend fun getLocationByLatLngAsync(

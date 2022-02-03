@@ -4,12 +4,17 @@ option java_package = "cz.sedlardavid.ak7mt";
 option java_multiple_files = true;
 
 message Settings {
-  string primaryCity = 1;
+  string city = 1;
+  string country = 2;
+  string countryCode = 3;
+  double latitude = 4;
+  double longitude = 5;
 
   enum Units {
     METRIC = 0;
     IMPERIAL = 1;
   }
 
-  Units units = 2;
+  Units units = 6;
+
 }
