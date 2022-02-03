@@ -17,7 +17,6 @@ class ForecastRepository @Inject constructor() {
         val decoded = gson.fromJson(response, Forecast::class.java)
         return decoded
 
-        /*return ForecastMock.forecast*/
     }
 
 

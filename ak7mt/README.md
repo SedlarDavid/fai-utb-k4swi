@@ -15,3 +15,5 @@ https://cz.pinterest.com/pin/215821007135521135/
 - Language - Kotlin
 - REST API - DarkSky
 - Dependencies - Hilt (DI)
+- Serialization - Gson
+- LiveData, ProtoStorage, AndroidX components 
