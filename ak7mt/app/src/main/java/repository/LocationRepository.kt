@@ -16,7 +16,7 @@ class LocationRepository @Inject constructor() {
 
 
     suspend fun resolveInitialLocation(): Location {
-        if (SystemService.getLocation() == null) {
+        if (SystemService.getLocation() == null || SystemService.isEmpty) {
             return api.getDefaultLocation()
         }
         return if (SystemService.getLocation()?.geometry?.latitude == null || SystemService.getLocation()?.geometry?.longitude == null) {
@@ -33,8 +33,8 @@ class LocationRepository @Inject constructor() {
 
     }
 
-    suspend fun getLocationByCity(city:String):Location{
-       return api.getLocationByPlace(city)
+    suspend fun getLocationByCity(city: String): Location {
+        return api.getLocationByPlace(city)
     }
 
 }

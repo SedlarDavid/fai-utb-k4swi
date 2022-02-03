@@ -7,19 +7,39 @@ import serializers.entities.Location
 object SystemService {
 
 
-     const val defaultLat: Double = 49.224438;
-     const val defaultLng: Double = 17.67065;
+    const val defaultLat: Double = 49.224438;
+    const val defaultLng: Double = 17.67065;
     private const val defaultCity: String = "Zlín";
 
 
-    private var units: Settings.Units = Settings.Units.IMPERIAL
+    private var units: Settings.Units = Settings.Units.METRIC
     private var location: Location? = null
 
+    val isEmpty: Boolean
+        get() {
+            return if (location == null) {
+                true
+            } else {
+                location!!.components.city.isEmpty() && location!!.components.country.isEmpty() && location!!.components.countryCode.isEmpty() && location!!.geometry.latitude.equals(
+                    0.0
+                ) && location!!.geometry.longitude.equals(0.0)
+            }
+        }
+
     fun getUnitsSymbol(): String {
-        if (units.equals("si")) {
+        if (units == Settings.Units.METRIC) {
             return "°C"
         } else {
             return "F"
+        }
+    }
+
+
+    fun getUnits(): String {
+        if (units == Settings.Units.METRIC) {
+            return "si"
+        } else {
+            return "us"
         }
     }
 
@@ -28,16 +48,28 @@ object SystemService {
     }
 
     fun getForecastLatitude(): Double {
-        return location?.geometry?.latitude ?: defaultLat
+        return if (location?.geometry?.latitude == null || location!!.geometry.latitude.equals(0.0))
+            defaultLat
+        else {
+            location!!.geometry.latitude
+        }
     }
 
     fun getForecastLongitude(): Double {
-        return location?.geometry?.longitude ?: defaultLng
+        return if (location?.geometry?.longitude == null || location!!.geometry.longitude.equals(0.0))
+            defaultLng
+        else {
+            location!!.geometry.longitude
+        }
     }
 
     fun getForecastCity(): String {
 
-        return location?.components?.city ?: defaultCity
+        return if (location?.components?.city == null || location!!.components.city.isEmpty()) {
+            defaultCity
+        } else {
+            location!!.components.city
+        }
 
     }
 
