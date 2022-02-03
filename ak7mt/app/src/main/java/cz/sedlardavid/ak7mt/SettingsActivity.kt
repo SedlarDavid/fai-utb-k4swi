@@ -1,22 +1,27 @@
 package cz.sedlardavid.ak7mt
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import cz.sedlardavid.ak7mt.databinding.ActivityDashboardBinding
 import cz.sedlardavid.ak7mt.databinding.ActivitySettingsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import serializers.SettingsSerializer
-import java.util.concurrent.Flow
+import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 
 private const val SETTINGS_FILE_NAME = "settings.pb";
@@ -53,6 +58,9 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         val city = binding.texEditText
         val units = binding.spiUnits
 
+
+        loader.visibility = View.VISIBLE
+
         ArrayAdapter.createFromResource(
             this,
             R.array.units,
@@ -64,10 +72,22 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
             units.adapter = adapter
         }
 
-        settingsStore.data.map { settings ->
-            city.setText(settings.primaryCity)
-            units.setSelection(dataToUnits(settings.units))
+        val settFlow = settingsStore.data
+            .catch { exception ->
+                // dataStore.data throws an IOException when an error is encountered when reading data
+                if (exception is IOException) {
+                    Log.e(TAG, "Error reading sort order preferences.", exception)
+                    emit(Settings.getDefaultInstance())
+                } else {
+                    throw exception
+                }
+            }
+
+
+        launch {
+            collectSettingsFlow(settFlow, city, units, loader)
         }
+
 
         btnSave.setOnClickListener {
             val cityData = city.text.toString()
@@ -75,6 +95,22 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
             launch { saveSettings(loader, cityData, unitsData) }
         }
 
+    }
+
+    private suspend fun collectSettingsFlow(
+        settFlow: Flow<Settings>,
+        city: EditText,
+        units: Spinner,
+        loader: ProgressBar
+    ) {
+
+        settFlow.collect { sett ->
+            city.setText(sett.primaryCity)
+            units.setSelection(dataToUnits(sett.units))
+        }
+
+
+        loader.visibility = View.GONE
     }
 
     private fun dataToUnits(units: Settings.Units?): Int {
