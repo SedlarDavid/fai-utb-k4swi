@@ -3,5 +3,14 @@
     <string name="btnForecast">Forecast</string>
     <string name="btnHistory">History</string>
     <string name="btnSettings">Settings</string>
-    <string name="titleDashboard">Settings</string>
+    <string name="titleDashboard">Dashboard</string>
+    <string name="forecast">Forecast</string>
+    <string name="history">History</string>
+    <string name="settingsTitle">Settings</string>
+    <string name="btnSaveSettings">Save settings</string>
+    <string name="cityHint" >Enter city</string>
+    <string name="settCityDescription" >City</string>
+    <string name="emptyCity" >City can\'t be empty</string>
+    <string name="saved" >Saved</string>
+    <string name="cityTitle" >City</string>
 </resources>

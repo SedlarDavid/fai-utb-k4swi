@@ -24,4 +24,6 @@ class ForecastViewModel @Inject constructor(repo: ForecastRepository) : ViewMode
             _forecast.value = repo.getForecast()
         }
     }
+
+
 }

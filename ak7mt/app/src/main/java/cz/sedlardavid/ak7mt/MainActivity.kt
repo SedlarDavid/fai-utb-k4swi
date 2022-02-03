@@ -3,38 +3,60 @@ package cz.sedlardavid.ak7mt
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import cz.sedlardavid.ak7mt.databinding.ActivityForecastBinding
+import cz.sedlardavid.ak7mt.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import repository.LocationRepository
+import serializers.viewmodels.LocationViewModel
+import serializers.viewmodels.SettingsViewModel
+import viewmodels.ForecastViewModel
 import java.util.*
 import kotlin.concurrent.schedule
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), CoroutineScope {
+
+    private var job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
+
+    private lateinit var binding: ActivityMainBinding
+
+
+    private val model: LocationViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //TODO handle init app state reroute to dashboard
-        // Get location permission
-        //  - Load city from storage ?? continue to app
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) {
-                    // Permission is granted. Continue the action or workflow in your
-                    // app.
-                } else {
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
-                }
-            }
-        val locRepository = LocationRepository(this)
+        setContentView(binding.root)
 
-        Timer().schedule(3000) {
+
+        model.location.observe(this) {
+            //3
             rerouteToDashboard()
+        }
+
+
+        //1
+        settingsViewModel.settings.observe(this) {
+            //2
+            launch { model.resolveLocation() }
         }
 
 

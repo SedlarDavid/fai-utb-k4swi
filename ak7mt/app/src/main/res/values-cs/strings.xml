@@ -4,4 +4,13 @@
     <string name="btnHistory">Historie</string>
     <string name="btnSettings">Nastavení</string>
     <string name="titleDashboard">Dashboard</string>
+    <string name="forecast">Forecast</string>
+    <string name="history">Historie</string>
+    <string name="settingsTitle">Nastavení</string>
+    <string name="btnSaveSettings">Uložit nastavení</string>
+    <string name="cityHint" >Napiš město</string>
+    <string name="settCityDescription" >Město</string>
+    <string name="emptyCity" >Město nesmí být prázdné</string>
+    <string name="saved">Uloženo</string>
+    <string name="cityTitle">Město</string>
 </resources>
