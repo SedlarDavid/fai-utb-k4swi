@@ -60,16 +60,7 @@ class SettingsViewModel @Inject constructor(
 
             settFlow.collect { sett ->
 
-                SystemService.setLocation(
-                    Location(
-                        LocationGeometry(latitude = sett.latitude, longitude = sett.longitude),
-                        LocationComponents(
-                            city = sett.city,
-                            country = sett.country,
-                            countryCode = sett.countryCode,
-                        ),
-                    )
-                )
+                updateSystemService(sett)
 
                 _settings.value = sett
 
@@ -77,6 +68,7 @@ class SettingsViewModel @Inject constructor(
 
         }
     }
+
 
     suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
         if (city.isEmpty()) {
@@ -91,7 +83,7 @@ class SettingsViewModel @Inject constructor(
 
         val newLoca = locationRepository.getLocationByCity(city)
 
-        context.settingsStore.updateData { currentSettings ->
+        val newSettings = context.settingsStore.updateData { currentSettings ->
             currentSettings.toBuilder()
                 .setCity(newLoca.components.city)
                 .setCountry(newLoca.components.country)
@@ -102,6 +94,8 @@ class SettingsViewModel @Inject constructor(
                 .build()
         }
 
+        updateSystemService(newSettings)
+
         loader.visibility = View.GONE
 
         Toast.makeText(
@@ -110,4 +104,18 @@ class SettingsViewModel @Inject constructor(
         ).show()
     }
 
+
+    private fun updateSystemService(sett: Settings) {
+        SystemService.setLocation(
+            Location(
+                LocationGeometry(latitude = sett.latitude, longitude = sett.longitude),
+                LocationComponents(
+                    city = sett.city,
+                    country = sett.country,
+                    countryCode = sett.countryCode,
+                ),
+            )
+        )
+        SystemService.setUnits(sett.units)
+    }
 }

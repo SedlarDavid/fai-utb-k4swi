@@ -12,4 +12,5 @@
     <string name="settCityDescription" >City</string>
     <string name="emptyCity" >City can\'t be empty</string>
     <string name="saved" >Saved</string>
+    <string name="cityTitle" >City</string>
 </resources>

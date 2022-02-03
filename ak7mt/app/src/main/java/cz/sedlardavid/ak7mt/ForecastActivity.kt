@@ -14,6 +14,7 @@ import cz.sedlardavid.ak7mt.databinding.ActivityForecastBinding
 import dagger.hilt.android.AndroidEntryPoint
 import entities.forecast.Forecast
 import serializers.entities.forecast.ForecastData
+import services.SystemService
 import viewmodels.ForecastViewModel
 
 @AndroidEntryPoint
@@ -33,10 +34,12 @@ class ForecastActivity : AppCompatActivity() {
 
         val loader: ProgressBar = binding.loaForecast
         val forecast = binding.hourlyForecastList
+        val cityTitle = binding.cityTitle
 
 
         forecast.visibility = View.GONE
         loader.visibility = View.VISIBLE
+        cityTitle.text = SystemService.getForecastCity()
 
 
         model.forecast.observe(this, Observer<Forecast> {

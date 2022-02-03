@@ -84,12 +84,4 @@ class ForecastAdapter(private val dataSet: Array<ForecastData>, private val cont
         return format.format(date)
     }
 
-    fun currentTimeToLong(): Long {
-        return System.currentTimeMillis()
-    }
-
-    fun convertDateToLong(date: String): Long {
-        val df = SimpleDateFormat("dd.MM HH:mm")
-        return df.parse(date).time
-    }
 }

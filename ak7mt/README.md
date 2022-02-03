@@ -6,8 +6,8 @@ https://cz.pinterest.com/pin/215821007135521135/
 - [x] source codes in version control (GIT)
 - [x] custom app icon, custom splash screen
 - [x] multiple connected screens, working navigation stack
-- [ ] data  saving into persistent storage
-- [ ] user input (user can alter data)
+- [x] data saving into persistent storage
+- [x] user input (user can alter data)
 - [x] communication with any REST API
 - [x] can be used any platform (Android, iOS), can be used any language or framework
 

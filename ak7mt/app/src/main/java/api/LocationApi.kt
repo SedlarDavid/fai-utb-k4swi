@@ -9,6 +9,7 @@ import org.json.JSONObject
 import serializers.entities.Location
 import serializers.entities.location.LocationComponents
 import serializers.entities.location.LocationGeometry
+import services.SystemService
 import tools.UrlBuilder
 
 class LocationApi(private val client: HttpClient) {
@@ -42,7 +43,7 @@ class LocationApi(private val client: HttpClient) {
         var response = ""
         println(response)
 
-        getLocationByLatLngAsync(49.224438, 17.662764) { v -> response = v }
+        getLocationByLatLngAsync(SystemService.defaultLat, SystemService.defaultLng) { v -> response = v }
         val jObject = JSONObject(response)
         val properResult = jObject.getJSONArray("results").get(0)
         val newJsonString = properResult.toString()

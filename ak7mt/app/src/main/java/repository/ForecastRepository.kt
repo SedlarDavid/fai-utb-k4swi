@@ -4,7 +4,7 @@ import api.Api
 import api.ForecastApi
 import com.google.gson.Gson
 import entities.forecast.Forecast
-import serializers.mocks.ForecastMock
+import services.SystemService
 import javax.inject.Inject
 
 class ForecastRepository @Inject constructor() {
@@ -13,7 +13,7 @@ class ForecastRepository @Inject constructor() {
 
     suspend fun getForecast(): Forecast {
 
-        val response = api.getForecast(49.224438, 17.662764)
+        val response = api.getForecast(SystemService.getForecastLatitude() ,SystemService.getForecastLongitude())
         val decoded = gson.fromJson(response, Forecast::class.java)
         return decoded
 

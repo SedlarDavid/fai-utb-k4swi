@@ -12,4 +12,5 @@
     <string name="settCityDescription" >Město</string>
     <string name="emptyCity" >Město nesmí být prázdné</string>
     <string name="saved">Uloženo</string>
+    <string name="cityTitle">Město</string>
 </resources>
