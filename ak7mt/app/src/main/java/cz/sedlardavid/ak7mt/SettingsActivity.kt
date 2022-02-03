@@ -1,17 +1,16 @@
 package cz.sedlardavid.ak7mt
 
+import android.R.attr.data
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
+import com.google.android.material.internal.ContextUtils.getActivity
 import cz.sedlardavid.ak7mt.databinding.ActivitySettingsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +20,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import serializers.SettingsSerializer
+import serializers.viewmodels.settingsStore
 import java.io.IOException
 import kotlin.coroutines.CoroutineContext
-
-private const val SETTINGS_FILE_NAME = "settings.pb";
-private val Context.settingsStore: DataStore<Settings> by dataStore(
-    fileName = SETTINGS_FILE_NAME,
-    serializer = SettingsSerializer
-)
 
 
 class SettingsActivity : AppCompatActivity(), CoroutineScope {
@@ -90,6 +84,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
 
         btnSave.setOnClickListener {
+            city.clearFocus()
             val cityData = city.text.toString()
             val unitsData = spinnerDataToUnits(units.selectedItem)
             launch { saveSettings(loader, cityData, unitsData) }
@@ -107,16 +102,17 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         settFlow.collect { sett ->
             city.setText(sett.primaryCity)
             units.setSelection(dataToUnits(sett.units))
+
+            loader.visibility = View.GONE
         }
 
 
-        loader.visibility = View.GONE
     }
 
     private fun dataToUnits(units: Settings.Units?): Int {
         return when (units) {
-            Settings.Units.IMPERIAL -> 1
-            else -> 0
+            Settings.Units.IMPERIAL -> 0
+            else -> 1
         }
 
     }
@@ -132,15 +128,25 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     }
 
 
-    suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
+    private suspend fun saveSettings(loader: ProgressBar, city: String, units: Settings.Units) {
+        if (city.isEmpty()) {
+            Toast.makeText(
+                this, getString(R.string.emptyCity),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
 
-        println("CITY $city,UNITS $units")
         loader.visibility = View.VISIBLE
         settingsStore.updateData { currentSettings ->
-            currentSettings.toBuilder().setPrimaryCity(city).build()
-            currentSettings.toBuilder().setUnits(units).build()
+            currentSettings.toBuilder().setPrimaryCity(city).setUnits(units).build()
         }
 
         loader.visibility = View.GONE
+
+        Toast.makeText(
+            this, getString(R.string.saved),
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

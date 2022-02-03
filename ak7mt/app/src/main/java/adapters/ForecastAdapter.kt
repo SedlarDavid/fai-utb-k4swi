@@ -54,7 +54,7 @@ class ForecastAdapter(private val dataSet: Array<ForecastData>, private val cont
         viewHolder.foreSummary.text = dataSet[position].summary
         viewHolder.foreTime.text = convertLongToTime(dataSet[position].time.toLong() * 1000)
         viewHolder.foreIcon.setImageDrawable(drawableFromData(dataSet[position].icon))
-        viewHolder.foreTemperature.text = "${dataSet[position].temperature} ${SystemService.getUnits()}"
+        viewHolder.foreTemperature.text = "${dataSet[position].temperature} ${SystemService.getUnitsSymbol()}"
     }
 
     private fun drawableFromData(icon: String): Drawable? {

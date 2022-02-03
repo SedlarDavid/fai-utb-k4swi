@@ -8,61 +8,37 @@ import api.Api
 import api.LocationApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import entities.forecast.Forecast
 import kotlinx.coroutines.runBlocking
+import serializers.entities.Location
+import services.SystemService
+import javax.inject.Inject
 
-class LocationRepository(private val activityContext: Activity) {
+class LocationRepository @Inject constructor() {
 
     private val api: LocationApi = Api.location
 
-    private var fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(activityContext)
 
-    init {
-        getLastKnownLocation()
-    }
-
-
-    private fun getLastKnownLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                activityContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                activityContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-
-
-
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
+    suspend fun resolveInitialLocation(): Location {
+        if (SystemService.getLocation() == null) {
+            val response = api.getDefaultLocation()
+            return response
         }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                if (location != null) {
-                    var locResponse: String = ""
-                    runBlocking {
+        if (SystemService.getLocation()?.latitude == null || SystemService.getLocation()?.longitude == null) {
+            val response = api.getLocationByPlace(SystemService.getLocation()!!.city!!)
 
-                        locResponse = api.getLocationByLatLng(location.latitude, location.longitude)
-                    }
-
-                    println(locResponse)
-
-                    // use your location object
-                    // get latitude , longitude and other info from this
-                }
-
-            }
+            val decoded = Location(city = response, latitude = null, longitude = null)
+            return decoded
+        } else {
+            val lat = SystemService.getLocation()!!.latitude!!
+            val lng = SystemService.getLocation()!!.longitude!!
+            val response = api.getLocationByLatLng(
+                lat, lng
+            )
+            val decoded = Location(city = response, latitude = lat, longitude = lng)
+            return decoded
+        }
 
     }
 
-
-    fun getLocationFromLatLng() {}
-    fun getLocationFromCity() {}
 }

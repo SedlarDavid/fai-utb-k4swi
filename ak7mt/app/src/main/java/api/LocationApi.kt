@@ -3,27 +3,37 @@ package api
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
+import serializers.entities.Location
 import tools.UrlBuilder
 
 class LocationApi(private val client: HttpClient) {
 
 
-    fun getLocationByLatLng(lat: Double, lng: Double): String {
+    suspend fun getLocationByLatLng(lat: Double, lng: Double): String {
         var response: String = ""
         println(response)
-        runBlocking {
-            getLocationByLatLngAsync(lat, lng) { v -> response = v }
-        }
+
+        getLocationByLatLngAsync(lat, lng) { v -> response = v }
+
         return response
     }
 
-    fun getLocationByPlace(place: String): String {
+    suspend fun getLocationByPlace(place: String): String {
         var response: String = ""
         println(response)
-        runBlocking {
-            getLocationByPlaceAsync(place) { v -> response = v }
-        }
+
+        getLocationByPlaceAsync(place) { v -> response = v }
+
         return response
+    }
+
+    suspend fun getDefaultLocation(): Location {
+        var response: String = ""
+        println(response)
+
+        getLocationByLatLngAsync(49.224438, 17.662764) { v -> response = v }
+
+        return Location(49.224438, 17.662764, "Zlín")
     }
 
     private suspend fun getLocationByLatLngAsync(
