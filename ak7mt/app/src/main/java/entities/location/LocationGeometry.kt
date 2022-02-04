@@ -1,7 +1,9 @@
 package serializers.entities.location
 
+import com.google.gson.annotations.SerializedName
+
 data class LocationGeometry(
 
-    val latitude: Double,
-    val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
+    @SerializedName("lng") val longitude: Double,
 )

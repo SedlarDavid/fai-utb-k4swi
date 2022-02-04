@@ -61,7 +61,17 @@ class SettingsViewModel @Inject constructor(
 
             settFlow.collect { sett ->
 
-                updateSystemService(sett)
+                SystemService.setLocation(
+                    Location(
+                        LocationGeometry(latitude = sett.latitude, longitude = sett.longitude),
+                        LocationComponents(
+                            city = sett.city,
+                            country = sett.country,
+                            countryCode = sett.countryCode,
+                        ),
+                    )
+                )
+                SystemService.setUnits(sett.units)
 
                 _settings.value = sett
 
@@ -96,7 +106,10 @@ class SettingsViewModel @Inject constructor(
                 .build()
         }
 
-        updateSystemService(newSettings)
+        SystemService.setLocation(
+            newLoca
+        )
+        SystemService.setUnits(units)
 
         loader.visibility = View.GONE
         button.visibility = View.VISIBLE
@@ -108,17 +121,4 @@ class SettingsViewModel @Inject constructor(
     }
 
 
-    private fun updateSystemService(sett: Settings) {
-        SystemService.setLocation(
-            Location(
-                LocationGeometry(latitude = sett.latitude, longitude = sett.longitude),
-                LocationComponents(
-                    city = sett.city,
-                    country = sett.country,
-                    countryCode = sett.countryCode,
-                ),
-            )
-        )
-        SystemService.setUnits(sett.units)
-    }
 }
