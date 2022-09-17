@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QPushButton button("Click me!");
 
     button.setGeometry(100,100,300,200);
-    button.show();`
+    button.show();
 
     QObject::connect(&button, &QPushButton::clicked, &a, QApplication::quit);
 
