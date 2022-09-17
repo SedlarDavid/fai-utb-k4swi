@@ -7,6 +7,11 @@ Student::Student(QString name, QObject *parent)
 
 }
 
+void Student::raiseMyHand()
+{
+    emit raiseHand(m_name);
+}
+
 void Student::welcomeTeacher()
 {
     std::cout << "Hello teacher!" << std::endl;

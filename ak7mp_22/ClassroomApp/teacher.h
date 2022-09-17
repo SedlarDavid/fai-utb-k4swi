@@ -1,6 +1,7 @@
 #ifndef TEACHER_H
 #define TEACHER_H
 
+#include <QString>
 #include <QObject>
 
 class Teacher : public QObject
@@ -12,6 +13,9 @@ public:
 
 signals:
     void teacherIncome();
+
+public slots:
+    void noticeStudent(QString name);
 };
 
 #endif // TEACHER_H
