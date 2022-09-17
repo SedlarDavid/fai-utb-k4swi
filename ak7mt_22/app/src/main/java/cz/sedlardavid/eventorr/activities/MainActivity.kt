@@ -3,11 +3,22 @@ package cz.sedlardavid.eventorr.activities
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import cz.sedlardavid.eventorr.R
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import cz.sedlardavid.eventorr.components.screens.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,16 +26,68 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
+        val items = listOf(
+            Screen.Dashboard,
+            Screen.Event,
+        )
         setContent {
-            Greeting()
+            val navController = rememberNavController()
+            Scaffold(
+                bottomBar = {
+                    BottomNavigation {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+                        items.forEach { screen ->
+                            BottomNavigationItem(
+                                icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                                label = { Text(stringResource(screen.resourceId)) },
+                                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                                onClick = {
+                                    navController.navigate(screen.route) {
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        // on the back stack as users select items
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            ) { innerPadding ->
+                NavHost(
+                    navController,
+                    startDestination = Screen.Dashboard.route,
+                    Modifier.padding(innerPadding)
+                ) {
+                    composable(Screen.Dashboard.route) { Profile(navController) }
+                    composable(Screen.Event.route) { FriendsList(navController) }
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun Greeting() {
-    Text(
-        text = stringResource(R.string.app_name),
-        style = MaterialTheme.typography.h5,
-    )
+fun Profile(
+    navController: NavHostController
+
+) {
+    Text(text = "Profile")
 }
+
+@Composable
+fun FriendsList(
+    navController: NavHostController
+
+) {
+    Text(text = "Event")
+}
+
