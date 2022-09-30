@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cz.sedlardavid.eventorr.components.screens.Screen
+import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             Screen.Dashboard,
             Screen.Event,
         )
+        val mock = EventsResponseMock.mock()
         setContent {
             val navController = rememberNavController()
             Scaffold(
