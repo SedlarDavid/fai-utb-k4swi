@@ -1,13 +1,35 @@
 package cz.sedlardavid.eventorr.entities
 
-import com.google.gson.annotations.SerializedName
-import java.util.*
-
 data class Event(
+    val access_method: Any,
+    val announce_date: String,
+    val announcements: Announcements,
+    val conditional: Boolean,
+    val created_at: String,
+    val date_tbd: Boolean,
+    val datetime_local: String,
+    val datetime_tbd: Boolean,
+    val datetime_utc: String,
+    val description: String,
+    val domain_information: List<Any>,
+    val enddatetime_utc: Any,
+    val event_promotion: Any,
+    val general_admission: Boolean,
     val id: Int,
+    val is_open: Boolean,
+    val links: List<Any>,
+    val performers: List<Performer>,
+    val popularity: Double,
+    val score: Double,
+    val short_title: String,
+    val stats: StatsX,
+    val status: String,
+    val taxonomies: List<TaxonomyX>,
+    val themes: List<Any>,
+    val time_tbd: Boolean,
+    val title: String,
     val type: String,
-    @SerializedName("datetime_utc")
-    val dateTime: Date,
-    @SerializedName("short_title")
-    val shortTitle: String,
+    val url: String,
+    val venue: Venue,
+    val visible_until_utc: String
 )

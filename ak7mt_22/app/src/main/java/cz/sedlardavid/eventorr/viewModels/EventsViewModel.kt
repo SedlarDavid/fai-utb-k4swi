@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventsViewModel @Inject constructor(repo: EventsRepository) : ViewModel() {
 
-    private val _events = MutableLiveData<List<Event>>()
+    private val _events = MutableLiveData<List<Event>>(listOf())
     val events: LiveData<List<Event>> = _events
 
     init {

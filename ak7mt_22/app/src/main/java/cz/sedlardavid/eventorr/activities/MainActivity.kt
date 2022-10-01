@@ -3,15 +3,19 @@ package cz.sedlardavid.eventorr.activities
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -95,19 +99,33 @@ fun EventsPage(
 
     ) {
     val viewModel: EventsViewModel = hiltViewModel()
-    Column {
-        viewModel.events.value?.forEach { event -> EventTile(event) }
+    LazyColumn {
+        items(viewModel.events.value!!.size)
+        { index ->
+            EventTile(viewModel.events.value!![index])
+        }
     }
 }
 
 
 @Composable
 fun EventTile(event: Event) {
+    val configuration = LocalConfiguration.current
+    Box(
+        Modifier
+            .width(configuration.screenWidthDp.dp)
+            .height(250.dp)
+            .padding(bottom = 10.dp)
+            .background(Color.Blue)
+            .padding(bottom = 20.dp)
+    ) {
+        Column {
 
-    Column {
+            Text(text = event.short_title)
+            Text(text = event.type)
 
-        Text(text = event.shortTitle)
-        Text(text = event.type)
+        }
 
     }
+
 }
