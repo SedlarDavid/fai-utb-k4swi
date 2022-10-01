@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                     startDestination = Screen.Dashboard.route,
                     Modifier.padding(innerPadding)
                 ) {
-                    composable(Screen.Dashboard.route) { Profile(navController) }
-                    composable(Screen.Event.route) { FriendsList(navController) }
+                    composable(Screen.Dashboard.route) { DashboardPage(navController) }
+                    composable(Screen.Event.route) { EventsPage(navController) }
                 }
             }
         }
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun Profile(
+fun DashboardPage(
     navController: NavHostController
 
 ) {
@@ -86,10 +86,9 @@ fun Profile(
 }
 
 @Composable
-fun FriendsList(
-    navController: NavHostController
+fun EventsPage(
+    navController: NavHostController,
 
-) {
+    ) {
     Text(text = "Event")
 }
-
