@@ -1,15 +1,15 @@
 package cz.sedlardavid.eventorr.mocks
 
+import com.google.gson.GsonBuilder
 import cz.sedlardavid.eventorr.entities.EventsResponse
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
 class EventsResponseMock {
 
     companion object {
         fun mock(): EventsResponse {
+            val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
 
-            return Json { ignoreUnknownKeys = true }.decodeFromString(sampleMockData)
+            return gson.fromJson(sampleMockData, EventsResponse::class.java)
 
         }
     }

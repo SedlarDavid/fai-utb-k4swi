@@ -1,14 +1,13 @@
 package cz.sedlardavid.eventorr.entities
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
+import java.util.*
 
-
-@Serializable
 data class Event(
     val id: Int,
     val type: String,
-/*    @SerialName("datetime_utc")
-    val dateTime: UtcOffset,*/
-    @SerialName("short_title") val shortTitle: String,
+    @SerializedName("datetime_utc")
+    val dateTime: Date,
+    @SerializedName("short_title")
+    val shortTitle: String,
 )

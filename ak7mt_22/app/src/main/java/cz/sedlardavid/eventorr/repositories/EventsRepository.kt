@@ -2,8 +2,9 @@ package cz.sedlardavid.eventorr.repositories
 
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
+import javax.inject.Inject
 
-class EventsRepository {
+class EventsRepository @Inject() constructor() {
     fun getEvents(): List<Event> {
         val eventResponse = EventsResponseMock.mock()
 
