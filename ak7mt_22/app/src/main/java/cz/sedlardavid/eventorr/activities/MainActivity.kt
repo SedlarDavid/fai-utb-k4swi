@@ -3,9 +3,10 @@ package cz.sedlardavid.eventorr.activities
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -13,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -24,11 +27,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import cz.sedlardavid.eventorr.components.screens.Screen
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -111,21 +116,35 @@ fun EventsPage(
 @Composable
 fun EventTile(event: Event) {
     val configuration = LocalConfiguration.current
-    Box(
-        Modifier
-            .width(configuration.screenWidthDp.dp)
-            .height(250.dp)
-            .padding(bottom = 10.dp)
-            .background(Color.Blue)
-            .padding(bottom = 20.dp)
-    ) {
-        Column {
 
-            Text(text = event.short_title)
-            Text(text = event.type)
+    Card(
+        shape = RoundedCornerShape(25.dp), backgroundColor = Color.Transparent,
+        modifier = Modifier
+            .width(configuration.screenWidthDp.dp)
+            .height(500.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
+    )
+    {
+        Box {
+
+            Image(
+                painter = rememberAsyncImagePainter(event.performers.first().image),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = Crop
+            )
+
+            Column(verticalArrangement = Arrangement.Bottom) {
+
+                Text(
+                    text = event.type, color = Color.White,
+                )
+                Text(text = event.short_title, color = Color.White, fontSize = 25.sp)
+
+            }
+
 
         }
-
     }
 
 }
