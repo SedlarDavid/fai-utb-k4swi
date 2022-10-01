@@ -13,7 +13,7 @@ import javax.inject.Inject
 class EventsViewModel @Inject constructor(repo: EventsRepository) : ViewModel() {
 
     private val _events = MutableLiveData<List<Event>>()
-    val forecast: LiveData<List<Event>> = _events
+    val events: LiveData<List<Event>> = _events
 
     init {
 

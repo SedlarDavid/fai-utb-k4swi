@@ -3,6 +3,7 @@ package cz.sedlardavid.eventorr.activities
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -19,7 +21,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import cz.sedlardavid.eventorr.components.screens.Screen
+import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
+import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -90,5 +94,20 @@ fun EventsPage(
     navController: NavHostController,
 
     ) {
-    Text(text = "Event")
+    val viewModel: EventsViewModel = hiltViewModel()
+    Column {
+        viewModel.events.value?.forEach { event -> EventTile(event) }
+    }
+}
+
+
+@Composable
+fun EventTile(event: Event) {
+
+    Column {
+
+        Text(text = event.shortTitle)
+        Text(text = event.type)
+
+    }
 }
