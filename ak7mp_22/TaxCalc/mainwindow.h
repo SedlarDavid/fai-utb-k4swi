@@ -15,6 +15,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btnClear_clicked();
+    void taxEvaluate();
+
+
 private:
     Ui::MainWindow *ui;
 };
