@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,15 @@ private slots:
     void taxEvaluate();
 
 
+    void on_radTwentyOne_clicked();
+
+    void on_radFifteen_clicked();
+    void on_actionCzech_triggered();
+
+    void on_actionEnglish_triggered();
+
 private:
     Ui::MainWindow *ui;
+    QTranslator translator;
 };
 #endif // MAINWINDOW_H
