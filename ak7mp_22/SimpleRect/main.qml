@@ -7,12 +7,49 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    Timer {
+    id:myTimer
+    interval:1000
+    running:true
+    repeat:true
+    onTriggered: {
+         myRect.x = Math.random() * (myRect.parent.width - myRect.width)
+        myRect.y = Math.random() * (myRect.parent.height - myRect.height)
+}
+    }
+
+    Text{
+    anchors.left: playGround.left
+    anchors.bottom: playGround.top
+    text: qsTr("Score: ") + myRect.clickCount
+
+    }
+
+    Rectangle {
+    id: playGround
+    anchors.fill: parent
+    anchors.margins: 10
+    anchors.topMargin: 20
+    color:"lightgray"
+    clip:true
+
+     MouseArea{
+     anchors.fill: parent
+     onClicked: {
+     myRect.clickCount--
+     myTimer.interval += 50
+         myRect.attentionColor = "red"
+         attAnim.start()
+     }}
+
     Rectangle {
     id: myRect
+    property int clickCount:0
+    property color attentionColor: "green"
     x:100
     y:100
-    width:100
-    height:100
+    width: (parent.width>800) ? 100 : (parent.width/8)
+    height:(parent.width>600) ? 100 : (parent.height/6)
     color:"lightblue"
     border.color: "black"
     border.width: 2
@@ -26,17 +63,35 @@ Window {
 
     Behavior on x {
         NumberAnimation {
-        duration: 1000
+        duration: myTimer.interval
         easing.type: Easing.OutElastic
         }
     }
     Behavior on y {
         NumberAnimation {
-        duration: 1000
+        duration: myTimer.interval
         easing.type: Easing.OutElastic
         }
     }
+SequentialAnimation {
+id: attAnim
 
+ColorAnimation {
+    from: "lightblue"
+    to: myRect.attentionColor
+    duration: myTimer.interval/2
+    target: myRect
+    property: "color"
+}
+ColorAnimation {
+    from: myRect.attentionColor
+    to: "lightblue"
+    duration: myTimer.interval/2
+    target: myRect
+    property: "color"
+}
+
+}
 
     Text{
         anchors.centerIn: parent
@@ -48,9 +103,17 @@ Window {
     onClicked: {
    myRect.x = Math.random() * (myRect.parent.width - myRect.width)
         myRect.y = Math.random() * (myRect.parent.height - myRect.height)
-
+myRect.clickCount++
+        myTimer.interval -= 50
+        myRect.attentionColor = "green"
+        attAnim.start()
         }
     }
 
     }
+
+    }
+
+
+
 }
