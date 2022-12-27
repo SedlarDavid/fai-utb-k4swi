@@ -64,6 +64,12 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
     fun removeFromFavorites(event: Event) {
         val toRemove = _favorites.value?.filter { e -> e.id == event.id }?.get(0)
         _favorites.value?.remove(toRemove)
+        synchronized(_favorites) {
+            _favorites.notify()
+        }
+        viewModelScope.launch {
+            repo.removeFromFavorites(event)
+        }
     }
 
 }

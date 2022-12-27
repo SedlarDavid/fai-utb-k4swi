@@ -55,18 +55,17 @@ fun EventTile(event: Event, isFavorite: Boolean = false) {
     {
         Box {
 
-            //TODO
-            if (event.performers.isNotEmpty())
-                Image(
-                    painter = rememberAsyncImagePainter(event.performers.first().image),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+            Image(
+                painter = rememberAsyncImagePainter(event.performers.first().image),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
 
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.Green), verticalArrangement = Arrangement.SpaceBetween) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween
+            ) {
 
                 Row(
                     modifier = Modifier
