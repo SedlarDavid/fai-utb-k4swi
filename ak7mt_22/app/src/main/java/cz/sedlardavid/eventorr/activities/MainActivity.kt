@@ -96,6 +96,9 @@ fun DashboardPage(
     navController: NavHostController
 
 ) {
+    val viewModel: EventsViewModel = hiltViewModel()
+    viewModel
+
     Text(text = "Profile")
 }
 

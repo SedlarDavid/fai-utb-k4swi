@@ -8,6 +8,7 @@ import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
 import cz.sedlardavid.eventorr.Event
 import cz.sedlardavid.eventorr.EventFavorites
+import cz.sedlardavid.eventorr.Performer
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -45,6 +46,23 @@ object EventFavoritesSerializer : Serializer<EventFavorites> {
     ) = t.writeTo(output)
 }
 
+object PerformerSerializer : Serializer<Performer> {
+    override val defaultValue: Performer = Performer.getDefaultInstance()
+
+    override suspend fun readFrom(input: InputStream): Performer {
+        try {
+            return Performer.parseFrom(input)
+        } catch (exception: InvalidProtocolBufferException) {
+            throw CorruptionException("Cannot read proto.", exception)
+        }
+    }
+
+    override suspend fun writeTo(
+        t: Performer,
+        output: OutputStream
+    ) = t.writeTo(output)
+}
+
 val Context.eventDataStore: DataStore<Event> by dataStore(
     fileName = "event.pb",
     serializer = EventSerializer
@@ -53,3 +71,8 @@ val Context.eventFavoritesDataStore: DataStore<EventFavorites> by dataStore(
     fileName = "eventFavorites.pb",
     serializer = EventFavoritesSerializer
 )
+val Context.performerDataStore: DataStore<Performer> by dataStore(
+    fileName = "performer.pb",
+    serializer = PerformerSerializer
+)
+
