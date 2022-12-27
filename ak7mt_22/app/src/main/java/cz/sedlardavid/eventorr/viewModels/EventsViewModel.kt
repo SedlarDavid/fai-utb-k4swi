@@ -23,8 +23,8 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
     val favorites: LiveData<ArrayList<Event>> = _favorites
 
     init {
-        _events.value = repo.getEvents()
         viewModelScope.launch {
+            _events.value = repo.getEvents()
             repo.eventFavoritesFlow.collect { favs ->
                 _favorites.value = ArrayList(favs.favoritesList.map { event ->
                     Event(

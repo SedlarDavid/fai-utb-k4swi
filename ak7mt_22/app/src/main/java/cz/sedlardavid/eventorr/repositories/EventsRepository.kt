@@ -2,18 +2,26 @@ package cz.sedlardavid.eventorr.repositories
 
 import android.content.Context
 import cz.sedlardavid.eventorr.Performer
+import cz.sedlardavid.eventorr.api.EventsApi
 import cz.sedlardavid.eventorr.data.eventFavoritesDataStore
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.logging.Level
+import java.util.logging.Logger
 import javax.inject.Inject
 
 class EventsRepository @Inject() constructor(
     @ApplicationContext private val context: Context
 ) {
-    fun getEvents(): List<Event> {
+    suspend fun getEvents(): List<Event> {
         val eventResponse = EventsResponseMock.mock()
-
+        try {
+            val data = EventsApi.retrofitService.getEvents()
+        } catch (e: Exception) {
+            var tmp = e
+            Logger.getAnonymousLogger().log(Level.WARNING, e.toString())
+        }
         return eventResponse.events
     }
 
