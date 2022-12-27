@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "cz.sedlardavid.eventorr";
+option java_multiple_files = true;
+
+message Event{
+  string created_at = 1;
+  string datetime_local = 2;
+  string datetime_tbd = 3;
+  string datetime_utc = 4;
+  string description = 5;
+  int32 id = 6;
+  string title = 7;
+  string type = 8;
+  string url = 9;
+}
+
+message EventFavorites {
+  repeated Event favorites = 1;
+}

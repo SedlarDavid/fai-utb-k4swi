@@ -34,8 +34,6 @@ import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.logging.Level
-import java.util.logging.Logger
 
 
 @AndroidEntryPoint
@@ -119,6 +117,7 @@ fun EventsPage(
 @Composable
 fun EventTile(event: Event) {
     val configuration = LocalConfiguration.current
+    val viewModel: EventsViewModel = hiltViewModel()
 
     Card(
         shape = RoundedCornerShape(25.dp), backgroundColor = Color.Transparent,
@@ -146,7 +145,7 @@ fun EventTile(event: Event) {
                         .height(25.dp), horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = {
-                        Logger.getAnonymousLogger().log(Level.WARNING, "Click")
+                        viewModel.addToFavorites(event)
                     }) {
                         Icon(Icons.Filled.Favorite, "favorite")
                     }
