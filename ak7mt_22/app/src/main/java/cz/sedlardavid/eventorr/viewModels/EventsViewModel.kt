@@ -9,6 +9,7 @@ import cz.sedlardavid.eventorr.entities.Performer
 import cz.sedlardavid.eventorr.repositories.EventsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import javax.inject.Inject
 
 
@@ -44,6 +45,9 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
                         })
                     )
                 })
+                synchronized(_favorites) {
+                    _favorites.notify()
+                }
             }
         }
     }
@@ -55,6 +59,11 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
         viewModelScope.launch {
             repo.addToFavorites(event)
         }
+    }
+
+    fun removeFromFavorites(event: Event) {
+        val toRemove = _favorites.value?.filter { e -> e.id == event.id }?.get(0)
+        _favorites.value?.remove(toRemove)
     }
 
 }
