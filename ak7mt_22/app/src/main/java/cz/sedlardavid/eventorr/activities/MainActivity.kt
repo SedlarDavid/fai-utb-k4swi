@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +34,8 @@ import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.logging.Level
+import java.util.logging.Logger
 
 
 @AndroidEntryPoint
@@ -121,7 +124,7 @@ fun EventTile(event: Event) {
         shape = RoundedCornerShape(25.dp), backgroundColor = Color.Transparent,
         modifier = Modifier
             .width(configuration.screenWidthDp.dp)
-            .height(500.dp)
+            .height(400.dp)
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
     )
     {
@@ -130,17 +133,34 @@ fun EventTile(event: Event) {
             Image(
                 painter = rememberAsyncImagePainter(event.performers.first().image),
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = Crop
             )
 
-            Column(verticalArrangement = Arrangement.Bottom) {
+            Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
 
-                Text(
-                    text = event.type, color = Color.White,
-                )
-                Text(text = event.short_title, color = Color.White, fontSize = 25.sp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(25.dp)
+                        .height(25.dp), horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = {
+                        Logger.getAnonymousLogger().log(Level.WARNING, "Click")
+                    }) {
+                        Icon(Icons.Filled.Favorite, "favorite")
+                    }
+                    Card(modifier = Modifier.background(color = Color.White)) {
+                        Column {
+                            Text(text = "X")
+                        }
+                    }
 
+                }
+                Column {
+                    Text(text = event.type, color = Color.White)
+                    Text(text = event.short_title, color = Color.White, fontSize = 25.sp)
+                }
             }
 
 
