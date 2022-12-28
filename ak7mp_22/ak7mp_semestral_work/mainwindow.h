@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qlistwidget.h"
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMainWindow>
@@ -18,6 +19,7 @@ public:
     ~MainWindow();
 
     void LoadAlbums();
+    void OnAlbumChanged();
 
 private:
     Ui::MainWindow *ui;

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "albumlistitem.h"
 #include "ui_mainwindow.h"
 #include <QDir>
 
@@ -22,11 +23,20 @@ void MainWindow::LoadAlbums()
     while (query.next()) {
         int id = query.value(0).toInt();
         QString name = query.value(1).toString();
-        ui->listWidget_2->addItem(name);
+        QString performerName = query.value(2).toString();
+        QString genre = query.value(3).toString();
+        QString img = query.value(4).toString();
+        int releaseYear = query.value(5).toInt();
+        Album album = Album(id, name, performerName, genre, img, releaseYear);
+        ui->listWidget_2->addItem(new AlbumListItem(album, ui->listWidget_2));
     }
 
     // Close the database connection
     db.close();
+}
+
+void MainWindow::OnAlbumChanged(){
+    qDebug() << ui->listWidget_2->currentItem()->text();
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -35,8 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
     LoadAlbums();
+
+
+    connect(ui->listWidget_2,&QListWidget::itemSelectionChanged,this,&MainWindow::OnAlbumChanged);
 
 }
 
