@@ -3,7 +3,7 @@
 #include "ui_mainwindow.h"
 #include <QDir>
 #include <QDebug>
-
+#include <QObject>
 
 void MainWindow::LoadAlbums()
 {
@@ -38,7 +38,8 @@ void MainWindow::LoadAlbums()
 }
 
 void MainWindow::OnAlbumChanged(){
-    qDebug() << ui->listWidget_2->currentItem()->text();
+AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+ui->albumName->setText(albumItem->album().name());ui->albumPerformer->setText(albumItem->album().performerName());ui->albumGenre->setText(albumItem->album().genre());ui->albumReleaseYear->setText(QString::number(albumItem->album().releaseYear()));
 }
 
 MainWindow::MainWindow(QWidget *parent)
