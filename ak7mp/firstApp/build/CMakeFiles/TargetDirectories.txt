@@ -1,3 +1,0 @@
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/firstApp/build/CMakeFiles/edit_cache.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/firstApp/build/CMakeFiles/firstApp.dir
-C:/Users/Work/dev/utb/fai-utb-k4swi/ak7mp/firstApp/build/CMakeFiles/rebuild_cache.dir
