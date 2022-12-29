@@ -2,6 +2,8 @@
 #include "albumlistitem.h"
 #include "ui_mainwindow.h"
 #include <QDir>
+#include <QDebug>
+
 
 void MainWindow::LoadAlbums()
 {
