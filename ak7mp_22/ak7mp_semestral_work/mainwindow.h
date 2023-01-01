@@ -5,6 +5,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QMainWindow>
+#include "album.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,8 +21,10 @@ public:
 
     void LoadAlbums();
     void OnAlbumChanged();
+    void OnSearchChanged(const QString query);
 
 private:
     Ui::MainWindow *ui;
+    QList<Album> albumList;
 };
 #endif // MAINWINDOW_H

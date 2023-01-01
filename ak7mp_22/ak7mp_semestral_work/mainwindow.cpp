@@ -20,10 +20,12 @@ void MainWindow::LoadAlbums()
         QString img = query.value(4).toString();
         int releaseYear = query.value(5).toInt();
         Album album = Album(id, name, performerName, genre, img, releaseYear);
+        albumList.append(album);
         ui->listWidget_2->addItem(new AlbumListItem(album, ui->listWidget_2));
     }
 
 }
+
 
 void MainWindow::OnAlbumChanged(){
     ui->albumSongs->clear();
@@ -43,6 +45,37 @@ void MainWindow::OnAlbumChanged(){
 
 }
 
+QString mapAlbumToName(const Album &album)
+{
+    return album.name();
+}
+
+bool filterByName(const Album &album, QString query)
+{
+    return album.name().contains(query);
+}
+void MainWindow::OnSearchChanged(const QString query){
+    ui->listWidget_2->clear();
+
+    if(query.isEmpty())
+    {
+        QList<QString> nameList;
+        std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
+        ui->listWidget_2->addItems(nameList);
+
+    }else{
+        QList<Album> workingList(albumList);
+
+        workingList.erase(std::remove_if(workingList.begin(), workingList.end(),
+                                        std::bind(filterByName, std::placeholders::_1, query)),
+                         workingList.end());
+
+        QList<QString> nameList;
+        std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
+        ui->listWidget_2->addItems(nameList);
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -53,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     connect(ui->listWidget_2,&QListWidget::itemSelectionChanged,this,&MainWindow::OnAlbumChanged);
+
+    connect(ui->inputSearch,&QLineEdit::textChanged,this,&MainWindow::OnSearchChanged);
 
 }
 
