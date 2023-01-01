@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:ak7mp_semestral_work}/dbs/SemestralWork.db",
+            "name": "AK7MP"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

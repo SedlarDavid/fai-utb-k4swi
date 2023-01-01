@@ -7,21 +7,6 @@
 
 void MainWindow::LoadAlbums()
 {
-    // Make data
-
-    QStringList splited = QDir::currentPath().split("/");
-   QString projectDir = splited[splited.length() - 2] + "ak7mp_semestral_work";
-   QDir dir = QDir::current();
-   dir.cd("../ak7mp_semestral_work");
-    QString databasePath = dir.absoluteFilePath("dbs/SemestralWork.db"/*QString("%1%2").arg(projectDir,"/dbs/SemestralWork.db")*/);
-
-    // Open a connection to the SQLite database
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(databasePath);
-    if (!db.open()) {
-        // Handle error
-      //  return qFatal("Database not opened!");
-    }
 
     // Execute a SELECT statement to retrieve the data
     QSqlQuery query("SELECT id, name, performer_name, genre, img, release_year FROM Albums");
@@ -38,13 +23,24 @@ void MainWindow::LoadAlbums()
         ui->listWidget_2->addItem(new AlbumListItem(album, ui->listWidget_2));
     }
 
-    // Close the database connection
-    db.close();
 }
 
 void MainWindow::OnAlbumChanged(){
-AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
-ui->albumName->setText(albumItem->album().name());ui->albumPerformer->setText(albumItem->album().performerName());ui->albumGenre->setText(albumItem->album().genre());ui->albumReleaseYear->setText(QString::number(albumItem->album().releaseYear()));
+    ui->albumSongs->clear();
+
+    AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+    ui->albumName->setText(albumItem->album().name());ui->albumPerformer->setText(albumItem->album().performerName());ui->albumGenre->setText(albumItem->album().genre());ui->albumReleaseYear->setText(QString::number(albumItem->album().releaseYear()));
+
+    QSqlQuery query;
+    query.prepare("SELECT name FROM Songs WHERE album_id LIKE :id");
+    query.bindValue(":id", "%" + QString::number(albumItem->album().id()) + "%");
+    query.exec();
+
+    while (query.next()) {
+        QString name = query.value(0).toString();
+        ui->albumSongs->addItem(name);
+    }
+
 }
 
 MainWindow::MainWindow(QWidget *parent)

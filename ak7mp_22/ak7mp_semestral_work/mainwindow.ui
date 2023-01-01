@@ -32,7 +32,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="listWidget"/>
+      <widget class="QListWidget" name="albumSongs"/>
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
