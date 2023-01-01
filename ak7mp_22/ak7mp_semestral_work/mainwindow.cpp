@@ -8,7 +8,12 @@
 void MainWindow::LoadAlbums()
 {
     // Make data
-    QString databasePath = QDir::current().absoluteFilePath("dbs/SemestralWork.db");
+
+    QStringList splited = QDir::currentPath().split("/");
+   QString projectDir = splited[splited.length() - 2] + "ak7mp_semestral_work";
+   QDir dir = QDir::current();
+   dir.cd("../ak7mp_semestral_work");
+    QString databasePath = dir.absoluteFilePath("dbs/SemestralWork.db"/*QString("%1%2").arg(projectDir,"/dbs/SemestralWork.db")*/);
 
     // Open a connection to the SQLite database
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
