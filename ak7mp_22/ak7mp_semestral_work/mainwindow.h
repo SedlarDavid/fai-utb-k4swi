@@ -19,6 +19,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void SetUpMenu();
+    void OnAddNewAlbum();
     void LoadAlbums();
     void OnAlbumChanged();
     void OnSearchChanged(const QString query);

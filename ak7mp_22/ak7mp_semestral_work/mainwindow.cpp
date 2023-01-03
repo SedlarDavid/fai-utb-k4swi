@@ -95,6 +95,37 @@ void MainWindow::OnSearchChanged(const QString query){
     }
 }
 
+void MainWindow::SetUpMenu(){
+    // Create the menu bar and add it to the main window
+    QMenuBar *menuBar = new QMenuBar(this);
+    this->setMenuBar(menuBar);
+
+    QMenu *fileMenu = new QMenu("File", menuBar);
+    menuBar->addMenu(fileMenu);
+    QMenu *editMenu = new QMenu("Edit", menuBar);
+    menuBar->addMenu(editMenu);
+
+    //File
+    QAction *newAlbumAction = new QAction("New album", fileMenu);
+    newAlbumAction->setShortcut(QKeySequence("Ctrl+N"));
+    fileMenu->addAction(newAlbumAction);
+    fileMenu->addSeparator();
+
+    //Edit
+    QAction *editAlbumAction = new QAction("Edit album", fileMenu);
+    editAlbumAction->setShortcut(QKeySequence("Ctrl+E"));
+    editAlbumAction->setDisabled(true);
+    editMenu->addAction(editAlbumAction);
+    QAction *saveAlbumChangesAction = new QAction("Save changes", fileMenu);
+    saveAlbumChangesAction->setShortcut(QKeySequence("Ctrl+S"));
+    saveAlbumChangesAction->setDisabled(true);
+    editMenu->addAction(saveAlbumChangesAction);
+
+    QObject::connect(newAlbumAction, &QAction::triggered, this, &MainWindow::OnAddNewAlbum);
+}
+
+void MainWindow::OnAddNewAlbum(){}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -104,6 +135,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->albumImage->setFrameShape(QFrame::Box);
     ui->albumImage->setLineWidth(1);
 
+
+    SetUpMenu();
 
     LoadAlbums();
 
