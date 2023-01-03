@@ -22,6 +22,7 @@ public:
     void LoadAlbums();
     void OnAlbumChanged();
     void OnSearchChanged(const QString query);
+    void DisplayAlbumCover(const Album &album);
 
 private:
     Ui::MainWindow *ui;

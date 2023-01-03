@@ -26,12 +26,29 @@ void MainWindow::LoadAlbums()
 
 }
 
+void MainWindow::DisplayAlbumCover(const Album &album){
+
+    QString imageName = album.name().toLower().replace(" ", "_") + ".jpg";
+
+    QDir dir = QDir::current();
+    dir.cd("../ak7mp_semestral_work");
+    QString imagePath = dir.absoluteFilePath("images/") + imageName;
+
+     QPixmap image(imagePath);
+
+     ui->albumImage->setPixmap(image);
+     ui->albumImage->setScaledContents(true);
+}
 
 void MainWindow::OnAlbumChanged(){
     ui->albumSongs->clear();
 
     AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
-    ui->albumName->setText(albumItem->album().name());ui->albumPerformer->setText(albumItem->album().performerName());ui->albumGenre->setText(albumItem->album().genre());ui->albumReleaseYear->setText(QString::number(albumItem->album().releaseYear()));
+    ui->albumName->setText(albumItem->album().name());
+    ui->albumPerformer->setText(albumItem->album().performerName());
+    ui->albumGenre->setText(albumItem->album().genre());
+    ui->albumReleaseYear->setText(QString::number(albumItem->album().releaseYear()));
+    DisplayAlbumCover(albumItem->album());
 
     QSqlQuery query;
     query.prepare("SELECT name FROM Songs WHERE album_id LIKE :id");
@@ -62,19 +79,19 @@ void MainWindow::OnSearchChanged(const QString query){
     {
         QList<QString> nameList;
         nameList.resize(albumList.size());
-         std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
+        std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
         ui->listWidget_2->addItems(nameList);
 
     }else{
         QList<Album> workingList(albumList);
 
         workingList.erase(std::remove_if(workingList.begin(), workingList.end(),
-                                        std::bind(filterByName, std::placeholders::_1, query)),
-                         workingList.end());
+                                         std::bind(filterByName, std::placeholders::_1, query)),
+                          workingList.end());
 
         QList<QString> nameList;
         nameList.resize(workingList.size());
-         std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
+        std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
         ui->listWidget_2->addItems(nameList);
     }
 }

@@ -30,4 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     dbs/SemestralWork.db \
     dbs/dbs.sqlite \
-    dbs/init_db.cmd
+    dbs/init_db.cmd \
+    images/rebels_never_die.jpg \
+    images/united_we_are.jpg
