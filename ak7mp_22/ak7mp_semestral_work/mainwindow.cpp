@@ -69,7 +69,6 @@ QString mapAlbumToName(const Album &album)
 
 bool filterByName(const Album &album, QString &query)
 {
-    qDebug() << !album.name().contains(query,Qt::CaseInsensitive) <<album.name() << query;
     return !album.name().contains(query,Qt::CaseInsensitive);
 }
 void MainWindow::OnSearchChanged(const QString query){
@@ -101,6 +100,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->albumImage->setFrameShape(QFrame::Box);
+    ui->albumImage->setLineWidth(1);
+
 
     LoadAlbums();
 
