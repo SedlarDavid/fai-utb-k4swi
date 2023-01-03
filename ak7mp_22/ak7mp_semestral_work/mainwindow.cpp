@@ -50,9 +50,10 @@ QString mapAlbumToName(const Album &album)
     return album.name();
 }
 
-bool filterByName(const Album &album, QString query)
+bool filterByName(const Album &album, QString &query)
 {
-    return album.name().contains(query);
+    qDebug() << !album.name().contains(query,Qt::CaseInsensitive) <<album.name() << query;
+    return !album.name().contains(query,Qt::CaseInsensitive);
 }
 void MainWindow::OnSearchChanged(const QString query){
     ui->listWidget_2->clear();
@@ -60,7 +61,8 @@ void MainWindow::OnSearchChanged(const QString query){
     if(query.isEmpty())
     {
         QList<QString> nameList;
-        std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
+        nameList.resize(albumList.size());
+         std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
         ui->listWidget_2->addItems(nameList);
 
     }else{
@@ -71,7 +73,8 @@ void MainWindow::OnSearchChanged(const QString query){
                          workingList.end());
 
         QList<QString> nameList;
-        std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
+        nameList.resize(workingList.size());
+         std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
         ui->listWidget_2->addItems(nameList);
     }
 }
