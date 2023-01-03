@@ -36,7 +36,7 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="albumReleaseYear">
          <property name="text">
           <string>Release year</string>
@@ -50,14 +50,14 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="albumName">
          <property name="text">
           <string>Album name</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="albumPerformer">
          <property name="text">
           <string>Performer</string>
@@ -92,25 +92,12 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="albumGenre">
          <property name="text">
           <string>Genre</string>
          </property>
         </widget>
-       </item>
-       <item row="6" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="1" column="1">
         <spacer name="horizontalSpacer">
@@ -124,6 +111,31 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="7" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="albumNameEdit"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="albumPerformerEdit"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="albumGenreEdit"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="albumYearEdit"/>
        </item>
       </layout>
      </item>

@@ -4,6 +4,10 @@
 #include <QDir>
 #include <QDebug>
 #include <QObject>
+#include <QMenuBar>
+#include <QtWidgets>
+#include <QSqlQuery>
+
 
 void MainWindow::LoadAlbums()
 {
@@ -34,13 +38,14 @@ void MainWindow::DisplayAlbumCover(const Album &album){
     dir.cd("../ak7mp_semestral_work");
     QString imagePath = dir.absoluteFilePath("images/") + imageName;
 
-     QPixmap image(imagePath);
+    QPixmap image(imagePath);
 
-     ui->albumImage->setPixmap(image);
-     ui->albumImage->setScaledContents(true);
+    ui->albumImage->setPixmap(image);
+    ui->albumImage->setScaledContents(true);
 }
 
 void MainWindow::OnAlbumChanged(){
+    editAlbumAction->setEnabled(true);
     ui->albumSongs->clear();
 
     AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
@@ -59,6 +64,8 @@ void MainWindow::OnAlbumChanged(){
         QString name = query.value(0).toString();
         ui->albumSongs->addItem(name);
     }
+
+
 
 }
 
@@ -112,25 +119,97 @@ void MainWindow::SetUpMenu(){
     fileMenu->addSeparator();
 
     //Edit
-    QAction *editAlbumAction = new QAction("Edit album", fileMenu);
+    editAlbumAction = new QAction("Edit album", fileMenu);
     editAlbumAction->setShortcut(QKeySequence("Ctrl+E"));
     editAlbumAction->setDisabled(true);
     editMenu->addAction(editAlbumAction);
-    QAction *saveAlbumChangesAction = new QAction("Save changes", fileMenu);
+    saveAlbumChangesAction = new QAction("Save changes", fileMenu);
     saveAlbumChangesAction->setShortcut(QKeySequence("Ctrl+S"));
     saveAlbumChangesAction->setDisabled(true);
     editMenu->addAction(saveAlbumChangesAction);
 
     QObject::connect(newAlbumAction, &QAction::triggered, this, &MainWindow::OnAddNewAlbum);
+    QObject::connect(editAlbumAction, &QAction::triggered, this, &MainWindow::OnEditAlbum);
+    QObject::connect(saveAlbumChangesAction, &QAction::triggered, this, &MainWindow::OnSaveAlbumChanges);
 }
 
 void MainWindow::OnAddNewAlbum(){}
+void MainWindow::OnEditAlbum(){
+    saveAlbumChangesAction->setDisabled(false);
+
+    AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+
+
+    ui->albumNameEdit->setText(albumItem->album().name());
+    ui->albumPerformerEdit->setText(albumItem->album().performerName());
+    ui->albumGenreEdit->setText(albumItem->album().genre());
+    ui->albumYearEdit->setText(QString::number(albumItem->album().releaseYear()));
+
+    SwitchEditAlbumFields(true);
+
+
+}
+
+void MainWindow::SwitchEditAlbumFields (bool isEdit){
+    ui->albumName->setVisible(!isEdit);
+    ui->albumPerformer->setVisible(!isEdit);
+    ui->albumGenre->setVisible(!isEdit);
+    ui->albumReleaseYear->setVisible(!isEdit);
+
+    ui->albumNameEdit->setVisible(isEdit);
+    ui->albumPerformerEdit->setVisible(isEdit);
+    ui->albumGenreEdit->setVisible(isEdit);
+    ui->albumYearEdit->setVisible(isEdit);
+}
+
+void MainWindow::OnSaveAlbumChanges(){
+
+    saveAlbumChangesAction->setDisabled(true);
+
+    AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+
+    QString sql = "UPDATE Albums SET name = :name, performer_name = :performer_name, genre = :genre, release_year = :release_year,  WHERE id = :id";
+
+
+    // Execute the UPDATE statement
+    QSqlQuery query;
+    query.prepare(sql);
+
+   QString name =  ui->albumNameEdit->text();
+   QString performer_name =  ui->albumPerformerEdit->text();
+   QString genre =  ui->albumGenreEdit->text();
+   int release_year = ui->albumNameEdit->text().toInt();
+   int id = albumItem->album().id();
+
+    query.bindValue(":name",name);
+    query.bindValue(":performer_name",performer_name);
+    query.bindValue(":genre",genre);
+    query.bindValue(":release_year",release_year);
+    query.bindValue(":id",id);
+
+    if (!query.exec()) {
+        qDebug() << "Error: Could not update item";
+    }
+
+    SwitchEditAlbumFields(false);
+
+    ui->albumName->setText(name);
+    ui->albumPerformer->setText(performer_name);
+    ui->albumGenre->setText(genre);
+    ui->albumReleaseYear->setText(QString::number(release_year));
+
+}
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->albumNameEdit->setVisible(false);
+    ui->albumPerformerEdit->setVisible(false);
+    ui->albumGenreEdit->setVisible(false);
+    ui->albumYearEdit->setVisible(false);
 
     ui->albumImage->setFrameShape(QFrame::Box);
     ui->albumImage->setLineWidth(1);

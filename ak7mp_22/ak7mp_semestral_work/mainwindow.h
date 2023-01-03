@@ -20,7 +20,6 @@ public:
     ~MainWindow();
 
     void SetUpMenu();
-    void OnAddNewAlbum();
     void LoadAlbums();
     void OnAlbumChanged();
     void OnSearchChanged(const QString query);
@@ -29,5 +28,14 @@ public:
 private:
     Ui::MainWindow *ui;
     QList<Album> albumList;
+
+     QAction *editAlbumAction;
+     QAction *saveAlbumChangesAction;
+
+     void OnAddNewAlbum();
+     void OnEditAlbum();
+     void OnSaveAlbumChanges();
+
+     void SwitchEditAlbumFields (bool isEdit);
 };
 #endif // MAINWINDOW_H
