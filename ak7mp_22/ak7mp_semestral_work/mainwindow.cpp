@@ -12,6 +12,8 @@
 void MainWindow::LoadAlbums()
 {
 
+    ui->listWidget_2->clear();
+
     // Execute a SELECT statement to retrieve the data
     QSqlQuery query("SELECT id, name, performer_name, genre, img, release_year FROM Albums");
 
@@ -168,18 +170,18 @@ void MainWindow::OnSaveAlbumChanges(){
 
     AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
 
-    QString sql = "UPDATE Albums SET name = :name, performer_name = :performer_name, genre = :genre, release_year = :release_year,  WHERE id = :id";
+    QString sql = "UPDATE Albums SET name = :name, performer_name = :performer_name, genre = :genre, release_year = :release_year  WHERE id = :id";
 
 
     // Execute the UPDATE statement
     QSqlQuery query;
     query.prepare(sql);
 
-   QString name =  ui->albumNameEdit->text();
-   QString performer_name =  ui->albumPerformerEdit->text();
-   QString genre =  ui->albumGenreEdit->text();
-   int release_year = ui->albumNameEdit->text().toInt();
-   int id = albumItem->album().id();
+    QString name =  ui->albumNameEdit->text();
+    QString performer_name =  ui->albumPerformerEdit->text();
+    QString genre =  ui->albumGenreEdit->text();
+    int release_year = ui->albumYearEdit->text().toInt();
+    int id = albumItem->album().id();
 
     query.bindValue(":name",name);
     query.bindValue(":performer_name",performer_name);
@@ -198,6 +200,10 @@ void MainWindow::OnSaveAlbumChanges(){
     ui->albumGenre->setText(genre);
     ui->albumReleaseYear->setText(QString::number(release_year));
 
+    int row =
+            ui->listWidget_2->currentRow();
+    LoadAlbums();
+    ui->listWidget_2->setCurrentRow(row);
 }
 
 MainWindow::MainWindow(QWidget *parent)
