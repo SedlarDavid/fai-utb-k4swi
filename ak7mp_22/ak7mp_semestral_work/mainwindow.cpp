@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "albumlistitem.h"
 #include "ui_mainwindow.h"
 #include <QDir>
 #include <QDebug>
@@ -7,6 +6,7 @@
 #include <QMenuBar>
 #include <QtWidgets>
 #include <QSqlQuery>
+#include <QList>
 
 
 void MainWindow::LoadAlbums()
@@ -68,39 +68,46 @@ void MainWindow::OnAlbumChanged(){
     }
 
 
-
 }
 
-QString mapAlbumToName(const Album &album)
+AlbumListItem* MainWindow::MapAlbumToListItem(const Album &album)
 {
-    return album.name();
+    return new AlbumListItem(album, ui->listWidget_2);
 }
 
-bool filterByName(const Album &album, QString &query)
+bool filterAlbum(const Album &album, QString &query)
 {
-    return !album.name().contains(query,Qt::CaseInsensitive);
+    return !album.name().contains(query,Qt::CaseInsensitive)
+            &&  !album.genre().contains(query,Qt::CaseInsensitive)
+            && !QString::number(album.releaseYear()).contains(query,Qt::CaseInsensitive)  ;
 }
 void MainWindow::OnSearchChanged(const QString query){
     ui->listWidget_2->clear();
 
     if(query.isEmpty())
     {
-        QList<QString> nameList;
-        nameList.resize(albumList.size());
-        std::transform(albumList.begin(), albumList.end(), nameList.begin(), mapAlbumToName);
-        ui->listWidget_2->addItems(nameList);
-
+        QList<AlbumListItem*> albumListItemsList;
+        albumListItemsList.resize(albumList.size());
+        std::function<AlbumListItem*(const Album &album)> mapper = std::bind(&MainWindow::MapAlbumToListItem, this, std::placeholders::_1);
+        std::transform(albumList.begin(), albumList.end(), albumListItemsList.begin(), mapper);
+        for (int i = 0; i < albumListItemsList.count(); i++) {
+            ui->listWidget_2->addItem(albumListItemsList[i]);
+        }
     }else{
         QList<Album> workingList(albumList);
 
         workingList.erase(std::remove_if(workingList.begin(), workingList.end(),
-                                         std::bind(filterByName, std::placeholders::_1, query)),
+                                         std::bind(filterAlbum, std::placeholders::_1, query)),
                           workingList.end());
 
-        QList<QString> nameList;
-        nameList.resize(workingList.size());
-        std::transform(workingList.begin(), workingList.end(), nameList.begin(), mapAlbumToName);
-        ui->listWidget_2->addItems(nameList);
+        QList<AlbumListItem*> albumListItemsList;
+        albumListItemsList.resize(workingList.size());
+
+        std::function<AlbumListItem*(const Album &album)> mapper = std::bind(&MainWindow::MapAlbumToListItem, this, std::placeholders::_1);
+        std::transform(workingList.begin(), workingList.end(), albumListItemsList.begin(), mapper);
+        for (int i = 0; i < albumListItemsList.count(); i++) {
+            ui->listWidget_2->addItem(albumListItemsList[i]);
+        }
     }
 }
 

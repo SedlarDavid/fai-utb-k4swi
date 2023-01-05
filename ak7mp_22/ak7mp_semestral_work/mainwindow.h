@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QMainWindow>
 #include "album.h"
+#include "albumlistitem.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,5 +38,6 @@ private:
      void OnSaveAlbumChanges();
 
      void SwitchEditAlbumFields (bool isEdit);
+     AlbumListItem* MapAlbumToListItem(const Album &album);
 };
 #endif // MAINWINDOW_H
