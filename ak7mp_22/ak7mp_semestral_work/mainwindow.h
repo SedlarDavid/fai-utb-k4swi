@@ -24,6 +24,7 @@ public:
     void LoadAlbums();
     void OnAlbumChanged();
     void OnSearchChanged(const QString query);
+    void OnImagePicker();
     void DisplayAlbumCover(const Album &album);
 
 private:

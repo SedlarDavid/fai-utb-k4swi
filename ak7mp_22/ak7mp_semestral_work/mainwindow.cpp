@@ -34,7 +34,7 @@ void MainWindow::LoadAlbums()
 
 void MainWindow::DisplayAlbumCover(const Album &album){
 
-    QString imageName = album.name().toLower().replace(" ", "_") + ".jpg";
+    QString imageName = album.name().toLower().replace(" ", "_") + ".bmp";
 
     QDir dir = QDir::current();
     dir.cd("../ak7mp_semestral_work");
@@ -111,6 +111,37 @@ void MainWindow::OnSearchChanged(const QString query){
     }
 }
 
+void MainWindow::OnImagePicker(){
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
+    if (!fileName.isEmpty()) {
+
+        QDir dir = QDir::current();
+        dir.cd("../ak7mp_semestral_work");
+        QString imagePath = dir.absoluteFilePath("images/");
+
+        AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+        QString saveFile = imagePath +albumItem->album().image() + ".bmp"; // create the full path to the save file, including the desired file name and extension
+        QFile file(fileName); // create a QFile object using the selected file's path
+    QFile oldFile(saveFile);
+
+    oldFile.remove();
+
+        if (file.exists()) {
+            file.copy(saveFile);
+
+            if (file.error() == QFile::NoError) {
+
+                QPixmap image(saveFile);
+
+                ui->albumImage->setPixmap(image);
+                ui->albumImage->setScaledContents(true);
+            } else {
+                // an error occurred while saving the file
+            }
+        }
+    }
+}
+
 void MainWindow::SetUpMenu(){
     // Create the menu bar and add it to the main window
     QMenuBar *menuBar = new QMenuBar(this);
@@ -164,6 +195,7 @@ void MainWindow::SwitchEditAlbumFields (bool isEdit){
     ui->albumPerformer->setVisible(!isEdit);
     ui->albumGenre->setVisible(!isEdit);
     ui->albumReleaseYear->setVisible(!isEdit);
+    ui->pickImage->setVisible(isEdit);
 
     ui->albumNameEdit->setVisible(isEdit);
     ui->albumPerformerEdit->setVisible(isEdit);
@@ -223,6 +255,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->albumPerformerEdit->setVisible(false);
     ui->albumGenreEdit->setVisible(false);
     ui->albumYearEdit->setVisible(false);
+    ui->pickImage->setVisible(false);
 
     ui->albumImage->setFrameShape(QFrame::Box);
     ui->albumImage->setLineWidth(1);
@@ -237,6 +270,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->inputSearch,&QLineEdit::textChanged,this,&MainWindow::OnSearchChanged);
 
+    connect(ui->pickImage,&QPushButton::clicked,this,&MainWindow::OnImagePicker);
 }
 
 MainWindow::~MainWindow()
