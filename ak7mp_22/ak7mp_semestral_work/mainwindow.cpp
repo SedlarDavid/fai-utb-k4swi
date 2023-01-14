@@ -50,6 +50,7 @@ void MainWindow::DisplayAlbumCover(const Album &album){
 
 void MainWindow::OnAlbumChanged(){
     editAlbumAction->setEnabled(true);
+    deleteAlbumAction->setEnabled(true);
     ui->albumSongs->clear();
 
     AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
@@ -165,6 +166,13 @@ void MainWindow::SetUpMenu(){
     editAlbumAction->setShortcut(QKeySequence("Ctrl+E"));
     editAlbumAction->setDisabled(true);
     editMenu->addAction(editAlbumAction);
+
+    deleteAlbumAction = new QAction("Delete album", fileMenu);
+    deleteAlbumAction->setShortcut(QKeySequence("Ctrl+D"));
+    deleteAlbumAction->setDisabled(true);
+    editMenu->addAction(deleteAlbumAction);
+
+
     saveAlbumChangesAction = new QAction("Save changes", fileMenu);
     saveAlbumChangesAction->setShortcut(QKeySequence("Ctrl+S"));
     saveAlbumChangesAction->setDisabled(true);
@@ -172,6 +180,7 @@ void MainWindow::SetUpMenu(){
 
     QObject::connect(newAlbumAction, &QAction::triggered, this, &MainWindow::OnAddNewAlbum);
     QObject::connect(editAlbumAction, &QAction::triggered, this, &MainWindow::OnEditAlbum);
+    QObject::connect(deleteAlbumAction, &QAction::triggered, this, &MainWindow::OnDeleteAlbum);
     QObject::connect(saveAlbumChangesAction, &QAction::triggered, this, &MainWindow::OnSaveAlbumChanges);
 }
 
@@ -194,18 +203,7 @@ void MainWindow::OnAddNewAlbum(){
         q2.exec();
         int id = q2.value(0).toInt();
 
-        AlbumListItem* item = new AlbumListItem(Album(id,dialog.getName(), dialog.getPerformerName(),dialog.getGenre(),dialog.getName(),dialog.getReleaseYear()), ui->listWidget_2);
-        ui->listWidget_2->addItem(item);
-
-
-        QDir dir = QDir::current();
-        dir.cd("../ak7mp_semestral_work");
-        QString imagePath = dir.absoluteFilePath("images/") + dialog.getImagePath();
-
-        QPixmap image(imagePath);
-
-        ui->albumImage->setPixmap(image);
-        ui->albumImage->setScaledContents(true);
+        this->LoadAlbums();
     }
 }
 void MainWindow::OnEditAlbum(){
@@ -223,7 +221,22 @@ void MainWindow::OnEditAlbum(){
 
 
 }
+void MainWindow::OnDeleteAlbum(){
 
+    AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
+
+    QSqlQuery query;
+    query.prepare("DELETE FROM Albums WHERE id=:id");
+    query.bindValue(":id", albumItem->album().id());
+    query.exec();
+
+
+    this->LoadAlbums();
+
+    ui->listWidget_2->setCurrentRow(0);
+
+
+}
 void MainWindow::SwitchEditAlbumFields (bool isEdit){
     ui->albumName->setVisible(!isEdit);
     ui->albumPerformer->setVisible(!isEdit);

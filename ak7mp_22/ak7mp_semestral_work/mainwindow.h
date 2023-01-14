@@ -32,10 +32,12 @@ private:
     QList<Album> albumList;
 
      QAction *editAlbumAction;
+     QAction *deleteAlbumAction;
      QAction *saveAlbumChangesAction;
 
      void OnAddNewAlbum();
      void OnEditAlbum();
+     void OnDeleteAlbum();
      void OnSaveAlbumChanges();
 
      void SwitchEditAlbumFields (bool isEdit);
