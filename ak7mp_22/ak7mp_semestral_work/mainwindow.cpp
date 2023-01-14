@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "addalbumdialog.h"
 #include "ui_mainwindow.h"
 #include <QDir>
 #include <QDebug>
@@ -8,6 +9,7 @@
 #include <QSqlQuery>
 #include <QList>
 
+#include <QSqlError>
 
 void MainWindow::LoadAlbums()
 {
@@ -34,7 +36,7 @@ void MainWindow::LoadAlbums()
 
 void MainWindow::DisplayAlbumCover(const Album &album){
 
-    QString imageName = album.name().toLower().replace(" ", "_") + ".bmp";
+    QString imageName = album.image().toLower().replace(" ", "_") + ".bmp";
 
     QDir dir = QDir::current();
     dir.cd("../ak7mp_semestral_work");
@@ -122,9 +124,9 @@ void MainWindow::OnImagePicker(){
         AlbumListItem* albumItem = dynamic_cast<AlbumListItem*>(ui->listWidget_2->currentItem());
         QString saveFile = imagePath +albumItem->album().image() + ".bmp"; // create the full path to the save file, including the desired file name and extension
         QFile file(fileName); // create a QFile object using the selected file's path
-    QFile oldFile(saveFile);
+        QFile oldFile(saveFile);
 
-    oldFile.remove();
+        oldFile.remove();
 
         if (file.exists()) {
             file.copy(saveFile);
@@ -173,7 +175,39 @@ void MainWindow::SetUpMenu(){
     QObject::connect(saveAlbumChangesAction, &QAction::triggered, this, &MainWindow::OnSaveAlbumChanges);
 }
 
-void MainWindow::OnAddNewAlbum(){}
+void MainWindow::OnAddNewAlbum(){
+    AddAlbumDialog dialog;
+    if (dialog.exec() == QDialog::Accepted) {
+
+        QSqlQuery query;
+
+        query.prepare("INSERT INTO Albums (name, performer_name, genre, img, release_year) VALUES (:name, :performer_name, :genre, :img, :release_year)");
+        query.bindValue(":name", dialog.getName());
+        query.bindValue(":performer_name", dialog.getPerformerName());
+        query.bindValue(":genre", dialog.getGenre());
+        query.bindValue(":img", dialog.getImagePath());
+        query.bindValue(":release_year", dialog.getReleaseYear());
+        query.exec();
+
+        QSqlQuery q2("SELECT id FROM Albums WHERE name LIKE :name");
+        q2.bindValue(":name", "%" +dialog.getName() + "%");
+        q2.exec();
+        int id = q2.value(0).toInt();
+
+        AlbumListItem* item = new AlbumListItem(Album(id,dialog.getName(), dialog.getPerformerName(),dialog.getGenre(),dialog.getName(),dialog.getReleaseYear()), ui->listWidget_2);
+        ui->listWidget_2->addItem(item);
+
+
+        QDir dir = QDir::current();
+        dir.cd("../ak7mp_semestral_work");
+        QString imagePath = dir.absoluteFilePath("images/") + dialog.getImagePath();
+
+        QPixmap image(imagePath);
+
+        ui->albumImage->setPixmap(image);
+        ui->albumImage->setScaledContents(true);
+    }
+}
 void MainWindow::OnEditAlbum(){
     saveAlbumChangesAction->setDisabled(false);
 

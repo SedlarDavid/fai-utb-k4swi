@@ -9,12 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addalbumdialog.cpp \
     album.cpp \
     albumlistitem.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    addalbumdialog.h \
     album.h \
     albumlistitem.h \
     mainwindow.h
@@ -31,5 +33,8 @@ DISTFILES += \
     dbs/SemestralWork.db \
     dbs/dbs.sqlite \
     dbs/init_db.cmd \
+    images/pucina.bmp \
+    images/rebels_never_die.bmp \
     images/rebels_never_die.jpg \
+    images/united_we_are.bmp \
     images/united_we_are.jpg
