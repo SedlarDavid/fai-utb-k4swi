@@ -1,0 +1,26 @@
+CREATE TABLE Albums (
+	id INTEGER PRIMARY KEY,
+	name TEXT NOT NULL,
+	performer_name TEXT NOT NULL,
+	genre TEXT NOT NULL,
+	img TEXT NOT NULL,
+	release_year INTEGER NOT NULL
+);
+CREATE TABLE Songs (
+	id INTEGER PRIMARY KEY,
+	album_id INTEGER NOT NULL,
+	name TEXT NOT NULL
+);
+
+
+INSERT INTO Albums (id, name, performer_name, genre, img, release_year) VALUES 
+(1, "United We Are", "Hardwell", "EDM" , "/", 2015),
+(2, "Rebels Never Die", "Hardwell", "EDM" , "/", 2022);
+
+INSERT INTO Songs (id, album_id,name) VALUES 
+(1, 1, "Eclipse"),
+(2, 1, "Sally"),
+(3, 1, "Colors"),
+(4, 2, "Broken Mirror"),
+(5, 2, "Dopamine"),
+(6, 2, "Packman");
