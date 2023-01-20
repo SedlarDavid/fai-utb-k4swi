@@ -90,7 +90,7 @@ void MainWindow::OnSearchChanged(const QString query){
     if(query.isEmpty())
     {
         QList<AlbumListItem*> albumListItemsList;
-        albumListItemsList.resize(albumList.size());
+        albumListItemsList.reserve(albumList.size());
         std::function<AlbumListItem*(const Album &album)> mapper = std::bind(&MainWindow::MapAlbumToListItem, this, std::placeholders::_1);
         std::transform(albumList.begin(), albumList.end(), albumListItemsList.begin(), mapper);
         for (int i = 0; i < albumListItemsList.count(); i++) {
@@ -104,7 +104,7 @@ void MainWindow::OnSearchChanged(const QString query){
                           workingList.end());
 
         QList<AlbumListItem*> albumListItemsList;
-        albumListItemsList.resize(workingList.size());
+        albumListItemsList.reserve(workingList.size());
 
         std::function<AlbumListItem*(const Album &album)> mapper = std::bind(&MainWindow::MapAlbumToListItem, this, std::placeholders::_1);
         std::transform(workingList.begin(), workingList.end(), albumListItemsList.begin(), mapper);

@@ -5,7 +5,6 @@
 #include "qdialogbuttonbox.h"
 #include "qlineedit.h"
 #include "qspinbox.h"
-#include "qtmetamacros.h"
 #include "qwidget.h"
 #include <QFileDialog>
 
