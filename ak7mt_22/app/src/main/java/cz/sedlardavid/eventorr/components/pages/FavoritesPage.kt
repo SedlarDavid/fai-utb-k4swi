@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +31,8 @@ fun FavoritesPage(
     var search by rememberSaveable { mutableStateOf("") }
 
     var renderFavorites by remember { mutableStateOf(mutableListOf<EventModel>()) }
-    renderFavorites = viewModel.favorites.value!!.toMutableList()
+    val favorites = viewModel.favorites.observeAsState()
+    renderFavorites = favorites.value!!.toMutableList()
     LazyColumn {
         item {
             Text(
@@ -49,7 +51,7 @@ fun FavoritesPage(
                     renderFavorites = if (search.isNotBlank())
                         viewModel.favorites.value!!.filter { m -> m.event.title.contains(search, ignoreCase = true) }.toMutableList()
                     else
-                        viewModel.favorites.value!!.toMutableList()
+                        favorites.value!!.toMutableList()
                 },
                 label = { Text("Search") },
                 modifier = Modifier
