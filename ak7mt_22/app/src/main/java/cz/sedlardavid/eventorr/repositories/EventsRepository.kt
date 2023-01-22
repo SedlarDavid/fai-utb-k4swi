@@ -3,9 +3,9 @@ package cz.sedlardavid.eventorr.repositories
 import android.content.Context
 import cz.sedlardavid.eventorr.Performer
 import cz.sedlardavid.eventorr.api.EventsApi
+import cz.sedlardavid.eventorr.api.RetrofitHelper
 import cz.sedlardavid.eventorr.data.eventFavoritesDataStore
 import cz.sedlardavid.eventorr.entities.Event
-import cz.sedlardavid.eventorr.mocks.EventsResponseMock
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -15,14 +15,20 @@ class EventsRepository @Inject() constructor(
     @ApplicationContext private val context: Context
 ) {
     suspend fun getEvents(): List<Event> {
-        val eventResponse = EventsResponseMock.mock()
         try {
-            val data = EventsApi.retrofitService.getEvents()
+            val eventsApi = RetrofitHelper.getInstance().create(EventsApi::class.java)
+
+            val data = eventsApi.getEvents()
+            if (data.body() == null) {
+                throw Exception("Unable to get request data!")
+            } else {
+                return data.body()!!.events
+            }
+
         } catch (e: Exception) {
-            var tmp = e
             Logger.getAnonymousLogger().log(Level.WARNING, e.toString())
+            throw e
         }
-        return eventResponse.events
     }
 
     val eventFavoritesFlow = context.eventFavoritesDataStore.data
