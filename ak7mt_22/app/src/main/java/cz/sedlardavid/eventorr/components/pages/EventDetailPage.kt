@@ -12,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import cz.sedlardavid.eventorr.R
 import cz.sedlardavid.eventorr.components.eventDetail.EventLink
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.tools.DateTools
@@ -49,9 +51,9 @@ fun EventDetailPage(
         ) {
             Text(text = event.type.replaceFirstChar { c -> c.uppercase() }.replace('_', ' '), color = Color.White, fontSize = 25.sp)
             Text(text = event.title, color = Color.White)
-            Text(text = "Date", color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
+            Text(text = stringResource(id = R.string.date), color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
             Text(text = DateTools.getEventDate(event.datetime_local), color = Color.White)
-            Text(text = "Performers", color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
+            Text(text = stringResource(id = R.string.performers), color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
 
             for (performer in event.performers) {
                 Row(
@@ -75,7 +77,7 @@ fun EventDetailPage(
             }
 
 
-            Text(text = "More details", color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
+            Text(text = stringResource(id = R.string.more_details), color = Color.White, modifier = Modifier.padding(top = 10.dp), fontSize = 25.sp)
             EventLink(event = event)
         }
     }

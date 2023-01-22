@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Eventorr</string>
+    <string name="favorites">Oblíbené</string>
+    <string name="events">Eventy</string>
+    <string name="event_detail">Detail eventu</string>
+    <string name="date">Datum</string>
+    <string name="performers">Účastníci</string>
+    <string name="more_details">Další informace</string>
+    <string name="search">Hledat</string>
+</resources>

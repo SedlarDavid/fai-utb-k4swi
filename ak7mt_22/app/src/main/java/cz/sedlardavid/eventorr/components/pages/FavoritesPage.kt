@@ -11,12 +11,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import cz.sedlardavid.eventorr.R
 import cz.sedlardavid.eventorr.components.event.EventTile
 import cz.sedlardavid.eventorr.models.EventModel
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
@@ -36,7 +38,7 @@ fun FavoritesPage(
     LazyColumn {
         item {
             Text(
-                text = "Favorite events",
+                text = stringResource(id = R.string.favorites),
                 color = Color.White, modifier = Modifier.padding(20.dp), fontSize = 25.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -53,7 +55,7 @@ fun FavoritesPage(
                     else
                         favorites.value!!.toMutableList()
                 },
-                label = { Text("Search") },
+                label = { Text(stringResource(id = R.string.search)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp, end = 20.dp, bottom = 20.dp), colors = TextFieldDefaults.textFieldColors(

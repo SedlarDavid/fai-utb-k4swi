@@ -3,4 +3,8 @@
     <string name="favorites">Favorites</string>
     <string name="events">Events</string>
     <string name="event_detail">Event detail</string>
+    <string name="date">Date</string>
+    <string name="performers">Performers</string>
+    <string name="more_details">More details</string>
+    <string name="search">Search</string>
 </resources>
