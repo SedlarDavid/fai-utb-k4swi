@@ -15,21 +15,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import cz.sedlardavid.eventorr.R
 import cz.sedlardavid.eventorr.components.eventDetail.EventLink
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.tools.DateTools
-import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
 @Composable
 fun EventDetailPage(
     event: Event,
-    navController: NavHostController,
 ) {
-    val viewModel: EventsViewModel = hiltViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()

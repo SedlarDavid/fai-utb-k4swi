@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         // be able to easily substitute this out for an observable
                         // data source
                         val model = viewModel.events.value!!.find { m -> m.event.id == id } ?: throw Exception("Event not found!")
-                        EventDetailPage(model.event, navController)
+                        EventDetailPage(model.event)
                     }
                 }
             }
