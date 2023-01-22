@@ -14,6 +14,10 @@ https://cz.pinterest.com/pin/672443788125943166/
 - [x] communication with any REST API - (Events API on seatgeek.com)
 - [x] should be written in Kotlin
 
+### Additionally added
+
+- [x] localization - (Default is en_US, supported is also cs_CZ)
+
 ### Used technologies
 
 - Language - Kotlin
