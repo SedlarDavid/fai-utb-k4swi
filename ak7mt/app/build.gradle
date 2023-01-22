@@ -37,6 +37,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'cz.sedlardavid.ak7mt'
 }
 
 dependencies {

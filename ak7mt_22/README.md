@@ -7,12 +7,16 @@ https://cz.pinterest.com/pin/672443788125943166/
 ### Prerequisites
 
 - [x] source codes in version control (GIT)
-- [ ] custom app icon, custom splash screen
-- [ ] multiple connected screens, working navigation stack
-- [ ] data saving into persistent storage
-- [ ] user input (user can alter data)
-- [ ] communication with any REST API
-- [ ] should be written in Kotlin
+- [x] custom app icon, custom splash screen - (Override of default android icon splash screen)
+- [x] multiple connected screens, working navigation stack - (Screens accessible via bottom bar, Event detail screen in new route)
+- [x] data saving into persistent storage - (ProtoDataStorage)
+- [x] user input (user can alter data) - (Search input for favorite events)
+- [x] communication with any REST API - (Events API on seatgeek.com)
+- [x] should be written in Kotlin
+
+### Additionally added
+
+- [x] localization - (Default is en_US, supported is also cs_CZ)
 
 ### Used technologies
 
