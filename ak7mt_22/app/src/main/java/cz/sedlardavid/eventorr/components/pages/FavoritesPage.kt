@@ -77,7 +77,7 @@ fun FavoritesPage(
         else
             item {
                 Text(
-                    text = "No favorites yet!",
+                    text = stringResource(id = R.string.no_favorites_yet),
                     color = Color.White,
                     modifier = Modifier
                         .fillMaxWidth()
