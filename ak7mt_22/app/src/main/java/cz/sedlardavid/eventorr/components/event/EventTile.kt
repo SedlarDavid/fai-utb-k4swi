@@ -94,7 +94,7 @@ fun EventTile(
                         if (isFav.value!!) viewModel.removeFromFavorites(model) else viewModel.addToFavorites(model)
                     }) {
                         Icon(
-                            if (!isFav.value!!) Icons.Filled.Close else Icons.Filled.Favorite,
+                            if (isFav.value!!) Icons.Filled.Close else Icons.Filled.Favorite,
                             "favorite",
                             tint = Color.White
                         )

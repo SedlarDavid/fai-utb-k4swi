@@ -5,10 +5,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -19,32 +19,36 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import cz.sedlardavid.eventorr.components.pages.DashboardPage
+import cz.sedlardavid.eventorr.R
 import cz.sedlardavid.eventorr.components.pages.EventDetailPage
 import cz.sedlardavid.eventorr.components.pages.EventsPage
+import cz.sedlardavid.eventorr.components.pages.FavoritesPage
 import cz.sedlardavid.eventorr.components.screenData.ScreenData
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val items = listOf(
-            ScreenData.Dashboard,
-            ScreenData.Event,
+            ScreenData.Events,
+            ScreenData.Favorites,
         )
         setContent {
             val navController = rememberNavController()
             Scaffold(
+                backgroundColor = Color.Black.copy(alpha = 0.85f),
                 bottomBar = {
-                    BottomNavigation {
+                    BottomNavigation(
+                        backgroundColor = colorResource(R.color.primary),
+                        contentColor = Color.White
+                    ) {
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentDestination = navBackStackEntry?.destination
                         items.forEach { screen ->
                             BottomNavigationItem(
-                                icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                                icon = { Icon(screen.icon, contentDescription = null) },
                                 label = { Text(stringResource(screen.resourceId)) },
                                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                                 onClick = {
@@ -69,11 +73,11 @@ class MainActivity : AppCompatActivity() {
             ) { innerPadding ->
                 NavHost(
                     navController,
-                    startDestination = ScreenData.Dashboard.route,
+                    startDestination = ScreenData.Events.route,
                     Modifier.padding(innerPadding)
                 ) {
-                    composable(ScreenData.Dashboard.route) { DashboardPage(navController) }
-                    composable(ScreenData.Event.route) { EventsPage(navController) }
+                    composable(ScreenData.Favorites.route) { FavoritesPage(navController) }
+                    composable(ScreenData.Events.route) { EventsPage(navController) }
                     composable(ScreenData.EventDetail.route + "/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType }))
                     { backStackEntry ->
                         val viewModel: EventsViewModel = hiltViewModel()
