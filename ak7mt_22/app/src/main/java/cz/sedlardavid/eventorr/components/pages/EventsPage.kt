@@ -2,6 +2,7 @@ package cz.sedlardavid.eventorr.components.screenData.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import cz.sedlardavid.eventorr.components.screenData.ScreenData
 import cz.sedlardavid.eventorr.entities.Event
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
@@ -31,17 +33,24 @@ fun EventsPage(
 
     ) {
     val viewModel: EventsViewModel = hiltViewModel()
+    viewModel.getEvents()
     LazyColumn {
         items(viewModel.events.value!!.size)
         { index ->
-            EventTile(viewModel.events.value!![index])
+            EventTile(
+                viewModel.events.value!![index], false,
+                navController
+            )
         }
     }
 }
 
 
 @Composable
-fun EventTile(event: Event, isFavorite: Boolean = false) {
+fun EventTile(
+    event: Event, isFavorite: Boolean = false,
+    navController: NavHostController
+) {
     val configuration = LocalConfiguration.current
     val viewModel: EventsViewModel = hiltViewModel()
 
@@ -51,6 +60,9 @@ fun EventTile(event: Event, isFavorite: Boolean = false) {
             .width(configuration.screenWidthDp.dp)
             .height(400.dp)
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
+            .clickable {
+                navController.navigate(ScreenData.EventDetail.route + "/${event.id}")
+            }
     )
     {
         Box {

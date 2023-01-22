@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventsViewModel @Inject constructor(private val repo: EventsRepository) : ViewModel() {
 
-    private val _events = MutableLiveData<List<Event>>(listOf())
+    private val _events = repo.events
     private val _favorites = MutableLiveData(ArrayList<Event>())
 
     val events: LiveData<List<Event>> = _events
@@ -24,7 +24,6 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
 
     init {
         viewModelScope.launch {
-            _events.value = repo.getEvents()
             repo.eventFavoritesFlow.collect { favs ->
                 _favorites.value = ArrayList(favs.favoritesList.map { event ->
                     Event(
@@ -52,6 +51,12 @@ class EventsViewModel @Inject constructor(private val repo: EventsRepository) : 
         }
     }
 
+
+    fun getEvents() {
+        viewModelScope.launch {
+            repo.getEvents()
+        }
+    }
 
     fun addToFavorites(event: Event) {
         _favorites.value?.add(event)

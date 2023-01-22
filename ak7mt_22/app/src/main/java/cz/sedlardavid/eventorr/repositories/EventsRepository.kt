@@ -1,6 +1,7 @@
 package cz.sedlardavid.eventorr.repositories
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import cz.sedlardavid.eventorr.Performer
 import cz.sedlardavid.eventorr.api.EventsApi
 import cz.sedlardavid.eventorr.api.RetrofitHelper
@@ -10,10 +11,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class EventsRepository @Inject() constructor(
     @ApplicationContext private val context: Context
 ) {
+
+
+    val events = MutableLiveData<List<Event>>(listOf())
+
     suspend fun getEvents(): List<Event> {
         try {
             val eventsApi = RetrofitHelper.getInstance().create(EventsApi::class.java)
@@ -22,7 +29,8 @@ class EventsRepository @Inject() constructor(
             if (data.body() == null) {
                 throw Exception("Unable to get request data!")
             } else {
-                return data.body()!!.events
+                events.value = data.body()!!.events
+                return events.value!!
             }
 
         } catch (e: Exception) {

@@ -27,7 +27,7 @@ fun DashboardPage(
             Text(text = "Favorite events", modifier = Modifier.padding(bottom = 20.dp))
         }
         items(favorites.value!!.size) { index ->
-            EventTile(favorites.value!![index], isFavorite = true)
+            EventTile(favorites.value!![index], isFavorite = true, navController)
         }
     }
 }
