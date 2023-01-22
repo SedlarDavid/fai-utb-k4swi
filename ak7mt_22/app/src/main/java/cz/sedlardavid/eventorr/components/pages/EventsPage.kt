@@ -11,11 +11,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import cz.sedlardavid.eventorr.R
 import cz.sedlardavid.eventorr.components.event.EventTile
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
@@ -32,7 +34,7 @@ fun EventsPage(
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxSize()
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = colorResource(id = R.color.accent))
         }
     else
         LazyColumn {
