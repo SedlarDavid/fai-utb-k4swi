@@ -35,7 +35,7 @@ fun EventDetailPage(
             modifier = Modifier
                 .fillMaxHeight(0.5f)
                 .fillMaxWidth(),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Crop
         )
 
         Text(text = event.type.replaceFirstChar { c -> c.uppercase() }, color = Color.White)

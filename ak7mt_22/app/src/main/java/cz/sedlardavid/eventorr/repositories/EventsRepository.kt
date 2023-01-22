@@ -18,12 +18,11 @@ import javax.inject.Singleton
 class EventsRepository @Inject() constructor(
     @ApplicationContext private val context: Context
 ) {
-
-
     val events = MutableLiveData<List<EventModel>>(listOf())
 
     suspend fun getEvents(): List<EventModel> {
         try {
+            if (events.value!!.isNotEmpty()) return events.value!!
             val eventsApi = RetrofitHelper.getInstance().create(EventsApi::class.java)
 
             val data = eventsApi.getEvents()

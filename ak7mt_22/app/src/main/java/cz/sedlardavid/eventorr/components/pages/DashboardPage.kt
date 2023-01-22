@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import cz.sedlardavid.eventorr.components.screenData.pages.EventTile
+import cz.sedlardavid.eventorr.components.event.EventTile
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
 
@@ -20,8 +20,6 @@ fun DashboardPage(
 ) {
     val viewModel: EventsViewModel = hiltViewModel()
     val favorites = viewModel.favorites.observeAsState()
-    //  var favorites by remember { mutableStateOf(ArrayList<Event>()) }
-
 
     LazyColumn {
         item {

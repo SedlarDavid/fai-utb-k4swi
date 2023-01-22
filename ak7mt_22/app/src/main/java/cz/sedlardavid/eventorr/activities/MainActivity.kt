@@ -21,8 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import cz.sedlardavid.eventorr.components.pages.DashboardPage
 import cz.sedlardavid.eventorr.components.pages.EventDetailPage
+import cz.sedlardavid.eventorr.components.pages.EventsPage
 import cz.sedlardavid.eventorr.components.screenData.ScreenData
-import cz.sedlardavid.eventorr.components.screenData.pages.EventsPage
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
