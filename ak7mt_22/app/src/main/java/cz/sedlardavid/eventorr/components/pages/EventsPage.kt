@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import cz.sedlardavid.eventorr.components.screenData.ScreenData
-import cz.sedlardavid.eventorr.entities.Event
+import cz.sedlardavid.eventorr.models.EventModel
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
 @Composable
@@ -38,7 +39,7 @@ fun EventsPage(
         items(viewModel.events.value!!.size)
         { index ->
             EventTile(
-                viewModel.events.value!![index], false,
+                viewModel.events.value!![index],
                 navController
             )
         }
@@ -48,11 +49,13 @@ fun EventsPage(
 
 @Composable
 fun EventTile(
-    event: Event, isFavorite: Boolean = false,
+    model: EventModel,
     navController: NavHostController
 ) {
     val configuration = LocalConfiguration.current
     val viewModel: EventsViewModel = hiltViewModel()
+    val event = model.event
+    val isFav = model.isFav.observeAsState()
 
     Card(
         shape = RoundedCornerShape(25.dp), backgroundColor = Color.Transparent,
@@ -86,9 +89,9 @@ fun EventTile(
                         .height(25.dp), horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = {
-                        if (isFavorite) viewModel.removeFromFavorites(event) else viewModel.addToFavorites(event)
+                        if (isFav.value!!) viewModel.removeFromFavorites(model) else viewModel.addToFavorites(model)
                     }) {
-                        Icon(if (!isFavorite) Icons.Filled.Close else Icons.Filled.Favorite, "favorite")
+                        Icon(if (!isFav.value!!) Icons.Filled.Close else Icons.Filled.Favorite, "favorite")
                         Card(modifier = Modifier.background(color = Color.White)) {
                             Column {
                                 Text(text = "X")

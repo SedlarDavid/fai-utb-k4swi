@@ -7,6 +7,7 @@ import cz.sedlardavid.eventorr.api.EventsApi
 import cz.sedlardavid.eventorr.api.RetrofitHelper
 import cz.sedlardavid.eventorr.data.eventFavoritesDataStore
 import cz.sedlardavid.eventorr.entities.Event
+import cz.sedlardavid.eventorr.models.EventModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -19,9 +20,9 @@ class EventsRepository @Inject() constructor(
 ) {
 
 
-    val events = MutableLiveData<List<Event>>(listOf())
+    val events = MutableLiveData<List<EventModel>>(listOf())
 
-    suspend fun getEvents(): List<Event> {
+    suspend fun getEvents(): List<EventModel> {
         try {
             val eventsApi = RetrofitHelper.getInstance().create(EventsApi::class.java)
 
@@ -29,7 +30,7 @@ class EventsRepository @Inject() constructor(
             if (data.body() == null) {
                 throw Exception("Unable to get request data!")
             } else {
-                events.value = data.body()!!.events
+                events.value = data.body()!!.events.map { e -> EventModel(e) }
                 return events.value!!
             }
 
@@ -60,7 +61,13 @@ class EventsRepository @Inject() constructor(
         }
     }
 
-    fun removeFromFavorites(event: Event) {
-        TODO("Not yet implemented")
+    suspend fun removeFromFavorites(event: Event) {
+        context.eventFavoritesDataStore.updateData { favorites ->
+            val favEvent = favorites.favoritesList.find { e -> e.id == event.id }
+
+            favorites.toBuilder().removeFavorites(
+                favorites.favoritesList.indexOf(favEvent)
+            ).build()
+        }
     }
 }

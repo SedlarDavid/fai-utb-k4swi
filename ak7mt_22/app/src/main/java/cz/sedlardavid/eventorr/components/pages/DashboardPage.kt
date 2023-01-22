@@ -1,4 +1,4 @@
-package cz.sedlardavid.eventorr.components.screenData.pages
+package cz.sedlardavid.eventorr.components.pages
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import cz.sedlardavid.eventorr.components.screenData.pages.EventTile
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 
 
@@ -27,7 +28,7 @@ fun DashboardPage(
             Text(text = "Favorite events", modifier = Modifier.padding(bottom = 20.dp))
         }
         items(favorites.value!!.size) { index ->
-            EventTile(favorites.value!![index], isFavorite = true, navController)
+            EventTile(favorites.value!![index], navController)
         }
     }
 }

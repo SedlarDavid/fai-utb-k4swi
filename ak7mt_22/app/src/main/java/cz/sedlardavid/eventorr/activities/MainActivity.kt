@@ -19,9 +19,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import cz.sedlardavid.eventorr.components.pages.DashboardPage
 import cz.sedlardavid.eventorr.components.pages.EventDetailPage
 import cz.sedlardavid.eventorr.components.screenData.ScreenData
-import cz.sedlardavid.eventorr.components.screenData.pages.DashboardPage
 import cz.sedlardavid.eventorr.components.screenData.pages.EventsPage
 import cz.sedlardavid.eventorr.viewModels.EventsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
                         // This means if that data later becomes *not* static, you'll
                         // be able to easily substitute this out for an observable
                         // data source
-                        val event = viewModel.events.value!!.find { e -> e.id == id } ?: throw Exception("Event not found!")
-                        EventDetailPage(event, navController)
+                        val model = viewModel.events.value!!.find { m -> m.event.id == id } ?: throw Exception("Event not found!")
+                        EventDetailPage(model.event, navController)
                     }
                 }
             }
