@@ -2,10 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+#include <QPushButton>
+#include <QInputDialog>
+#include <QTextEdit>
 
 class MainWindow : public QMainWindow
 {
@@ -15,7 +14,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void runLimitedAlgorithm();
+    void runScalableAlgorithm();
+
 private:
-    Ui::MainWindow *ui;
+    QPushButton *limitedButton;
+    QPushButton *scalableButton;
+    QTextEdit *outputText;
 };
+
 #endif // MAINWINDOW_H

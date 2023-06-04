@@ -10,18 +10,17 @@ void Worker::calculateFactorial(int number) {
     for (int i = 2; i <= number; ++i) {
         result *= i;
 
-        // Report progress every 10000 iterations or at the end of the loop
         if (i % 10000 == 0 || i == number) {
             emit progressChanged(i * 100 / number);
         }
 
         if (QThread::currentThread()->isInterruptionRequested()) {
-            emit progressChanged(0); // Reset progress bar
-            return; // Computation canceled
+            emit progressChanged(0);
+            return;
         }
     }
 
-    emit progressChanged(0); // Reset progress bar
+    emit progressChanged(0);
     emit resultReady(QString::number(result));
 }
 
@@ -37,8 +36,8 @@ void Worker::calculatePrimes(int range) {
         }
 
         if (QThread::currentThread()->isInterruptionRequested()) {
-            emit progressChanged(0); // Reset progress bar
-            return; // Computation canceled
+            emit progressChanged(0);
+            return;
         }
     }
 
@@ -48,18 +47,17 @@ void Worker::calculatePrimes(int range) {
             primeList.append(QString::number(i));
         }
 
-        // Report progress every 1000 numbers or at the end of the loop
         if (i % 1000 == 0 || i == range) {
             emit progressChanged(i * 100 / range);
         }
 
         if (QThread::currentThread()->isInterruptionRequested()) {
-            emit progressChanged(0); // Reset progress bar
-            return; // Computation canceled
+            emit progressChanged(0);
+            return;
         }
     }
 
-    emit progressChanged(0); // Reset progress bar
+    emit progressChanged(0);
     emit resultReady(primeList.join(", "));
 }
 
@@ -77,7 +75,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(workerThread, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(workerThread, SIGNAL(finished()), workerThread, SLOT(deleteLater()));
 
-    // Reset the progress bar to zero on application start
     ui->progressBar->setValue(0);
 
     workerThread->start();
