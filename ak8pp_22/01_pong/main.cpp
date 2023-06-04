@@ -1,11 +1,11 @@
-#include "mainwindow.h"
-
 #include <QApplication>
+#include "pong.h"
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    Pong pong;
+    pong.show();
+
+    return app.exec();
 }
