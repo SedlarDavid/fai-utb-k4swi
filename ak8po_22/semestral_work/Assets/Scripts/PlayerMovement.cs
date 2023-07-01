@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D _body;
     [SerializeField] private float speed;
+    [SerializeField] private LayerMask groundLayer;
 
+    private Rigidbody2D _body;
     private Animator _anim;
+    private BoxCollider2D _boxCollider;
 
-    private bool _grounded;
 
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -33,27 +35,28 @@ public class PlayerMovement : MonoBehaviour
             _ => scaleTransform.localScale
         };
 
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) & _grounded)
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow)) & IsGrounded())
         {
             Jump();
         }
 
         _anim.SetBool("run", horizontalInput != 0);
-        _anim.SetBool("grounded", _grounded);
+        _anim.SetBool("grounded", IsGrounded());
     }
 
     private void Jump()
     {
-        _body.velocity = new Vector2(_body.velocity.x, speed * 0.75f);
+        _body.velocity = new Vector2(_body.velocity.x, speed );
         _anim.SetTrigger("jump");
-        _grounded = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+
+    private bool IsGrounded()
     {
-        if (other.gameObject.tag == "Ground")
-        {
-            _grounded = true;
-        }
+        // BoxCast will create virtual box underneath the player, if the ray from that box collides from specified layer we can 
+        // settle up some actions
+        var raycastHit =
+            Physics2D.BoxCast(_boxCollider.bounds.center, _boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        return raycastHit.collider != null;
     }
 }
