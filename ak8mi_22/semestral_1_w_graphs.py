@@ -37,7 +37,7 @@ def random_search(cost_function, dimension, max_iterations, runs):
 # Simulated Annealing algorithm
 def simulated_annealing(cost_function, dimension, max_iterations, initial_temperature, cooling_rate, runs):
     best_solutions = []
-    costs = []
+
     
     for _ in range(runs):
         current_solution = np.random.uniform(low=-5, high=5, size=(dimension,))
@@ -67,7 +67,7 @@ def simulated_annealing(cost_function, dimension, max_iterations, initial_temper
     
     return best_solutions, costs
 
-# Compute statistics for a list of costs
+# Compute statistPulumiuics for a list of costs
 def compute_statistics(costs):
     min_cost = np.min(costs)
     max_cost = np.max(costs)
