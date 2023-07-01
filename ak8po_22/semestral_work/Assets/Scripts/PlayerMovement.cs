@@ -119,4 +119,9 @@ public class PlayerMovement : MonoBehaviour
     {
         return (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow));
     }
+
+    public bool CanAttack()
+    {
+        return _horizontalInput == 0 && IsGrounded() && !OnWall();
+    }
 }
