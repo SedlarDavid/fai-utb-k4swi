@@ -15,7 +15,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _body.velocity.y);
+        var horizontalInput = Input.GetAxis("Horizontal");
+        _body.velocity = new Vector2(horizontalInput * speed, _body.velocity.y);
+
+        var scaleTransform = transform;
+        scaleTransform.localScale = horizontalInput switch
+        {
+            //Flip to the right
+            > 0.01f => new Vector3(4, 4, 4),
+            //Flip to the left
+            < -0.01f => new Vector3(-4, 4, 4),
+            _ => scaleTransform.localScale
+        };
 
         if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
         {
