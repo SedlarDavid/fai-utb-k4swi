@@ -9,13 +9,22 @@ public class PlayerRespawn : MonoBehaviour
     private Transform currentCheckpoint;
     private Health playerHealth;
 
+    private UIManager _uiManager;
+
     private void Awake()
     {
         playerHealth = GetComponent<Health>();
+        _uiManager = FindObjectOfType<UIManager>();
     }
 
-    public void Respawn()
+    public void CheckRespawn()
     {
+        if (currentCheckpoint == null)
+        {
+            _uiManager.GameOver();
+            return;
+        }
+
         transform.position = currentCheckpoint.position;
         playerHealth.Respawn();
 
