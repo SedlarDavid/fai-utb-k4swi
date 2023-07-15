@@ -183,6 +183,7 @@ MonoBehaviour:
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
+  _jumpSound: {fileID: 8300000, guid: de63135cf1f104a1799bc424df2a6954, type: 3}
 --- !u!114 &6877650678339522090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +202,8 @@ MonoBehaviour:
   components:
   - {fileID: 4284982905412604735}
   - {fileID: 5037246181474477530}
+  _deathSound: {fileID: 8300000, guid: 58b0e829f2c334bb18f6d67366bd1c79, type: 3}
+  _hurtSound: {fileID: 8300000, guid: 34da518cea66e4ec5bb7627917eb734d, type: 3}
 --- !u!114 &4284982905412604735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +229,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  bootSound: {fileID: 8300000, guid: f08283e06446b4b2c9a2c1eff1ec274e, type: 3}
 --- !u!95 &5217814066829256485
 Animator:
   serializedVersion: 5

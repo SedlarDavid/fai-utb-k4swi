@@ -8,10 +8,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject[] boots;
-
+    [SerializeField] private AudioClip bootSound;
+    
     private Animator _anim;
     private PlayerMovement _playerMovement;
     private float _cooldownTimer = Mathf.Infinity;
+    
 
     private void Awake()
     {
@@ -30,6 +32,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
+        SoundManager.instance.PlaySound(bootSound);
         _anim.SetTrigger("attack");
         _cooldownTimer = 0;
 
