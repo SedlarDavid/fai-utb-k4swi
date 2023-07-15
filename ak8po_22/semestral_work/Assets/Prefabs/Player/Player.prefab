@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6877650678339522090}
   - component: {fileID: 4284982905412604735}
   - component: {fileID: 5217814066829256485}
+  - component: {fileID: 2635601893307651741}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -37,7 +38,7 @@ Transform:
   m_Children:
   - {fileID: 1962313750171500671}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3223330152616651816
 SpriteRenderer:
@@ -251,6 +252,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2635601893307651741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6552869132185542023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ba30860f374e1898825dd35877ac2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointSound: {fileID: 8300000, guid: db564b73832aa4c41b861cfe87f983c6, type: 3}
 --- !u!1 &8926204715483246371
 GameObject:
   m_ObjectHideFlags: 0
